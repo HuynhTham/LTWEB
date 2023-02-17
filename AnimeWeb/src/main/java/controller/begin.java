@@ -11,14 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import database.Login;
-import database.blog;
-import database.movie;
-import model.ListAccount;
-import model.ListBlog;
-import model.ListMovie;
-
-
 @WebServlet("/anime-main/begin")
 public class begin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
