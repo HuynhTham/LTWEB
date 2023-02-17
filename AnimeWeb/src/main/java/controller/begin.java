@@ -28,24 +28,11 @@ public class begin extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-			movie daoMovie = new movie();
-			blog daoBlog = new blog();   
-			ListMovie listMovie;
-			ListBlog listBlog;
-			ListAccount listAccount;
-			
 			try {
-				listMovie = daoMovie.getMovie();
-				listBlog = new ListBlog(daoBlog.getlistBlog());
-				listAccount = new ListAccount(new Login().getConnection());
-				getServletContext().setAttribute("listMovie", listMovie);
-				getServletContext().setAttribute("listBlog", listBlog);
-				getServletContext().setAttribute("listUser", listAccount);
-			
-				
-			} catch (ClassNotFoundException | SQLException e) {
+				request.getRequestDispatcher("/anime-main/index.jsp").forward(request, response);
+			} catch (Exception e) {
 				response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
-				//e.printStackTrace();
+				
 				
 			}
 
