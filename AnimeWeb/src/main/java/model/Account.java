@@ -5,36 +5,32 @@ import java.sql.SQLException;
 import database.Rate;
 
 public class Account {
+	private int idUser;
 	private String userName;
 	private String passWord;
 	private String email;
 	private String avatar;
-	private int isAdmin;
-
-	public Account(String userName, String passWord, String email, String avatar,int isAdmin) {
+	private int typeId;
+	private int isActive;
+	
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
+			int isActive) {
 		super();
+		this.idUser = idUser;
 		this.userName = userName;
 		this.passWord = passWord;
 		this.email = email;
 		this.avatar = avatar;
-		this.isAdmin = isAdmin;
-
+		this.typeId = typeId;
+		this.isActive = isActive;
+	}
+	
+	public int getIdUser() {
+		return idUser;
 	}
 
-	public int getIsAdmin() {
-		return isAdmin;
-	}
-
-	public void setIsAdmin(int isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getUserName() {
@@ -61,6 +57,29 @@ public class Account {
 		this.email = email;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public int getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+	}
+
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
 
 	@Override
 	public String toString() {
