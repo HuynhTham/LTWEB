@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/ds/style.css" />
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=vi"></script>
 </head>
 
 <body>
@@ -84,14 +85,15 @@
 						<form action="login" method="get">
 							<div class="input__item">
 								<input required="required" type="text" placeholder="User Name"
-									name="loginName"> <span class="icon_mail"></span>
+									name="loginName" value="${usName}"> <span class="icon_mail"></span>
 							</div>
 							<div class="input__item">
 								<input type="password" required="required"
 									placeholder="Password" name="loginPassword"> <span
 									class="icon_lock"></span>
 							</div>
-
+						<div class="g-recaptcha"
+						data-sitekey="6Lf2nYwkAAAAADknQvj1Os2Ht92MMORFX3RhbQDo"></div>
 							<button type="submit" class="site-btn" value="login"
 								name="accountBtn">
 								<fmt:message>button.login</fmt:message>

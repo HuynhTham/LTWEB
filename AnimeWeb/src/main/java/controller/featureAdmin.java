@@ -29,10 +29,10 @@ public class featureAdmin extends HttpServlet {
 			if(ac==null) {
 				getServletContext().getRequestDispatcher("/admin/login.jsp").forward(request, response);
 			}
-			if(ac.getIsAdmin()==0) {
+			if(ac.isAdmin()==0) {
 				response.sendRedirect("/admin/login.jsp");
 			}
-			if(ac.getIsAdmin()==1) {
+			if(ac.isAdmin()==1) {
 			
 				getServletContext().getRequestDispatcher("/admin/movieManagerment.jsp").forward(request, response);
 

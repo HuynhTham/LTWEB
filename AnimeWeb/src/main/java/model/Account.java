@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import database.Rate;
 
@@ -12,9 +13,9 @@ public class Account {
 	private String avatar;
 	private int typeId;
 	private int isActive;
-	
+	private ArrayList<Role> roles;
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
-			int isActive) {
+			int isActive, ArrayList<Role> roles) {
 		super();
 		this.idUser = idUser;
 		this.userName = userName;
@@ -23,6 +24,7 @@ public class Account {
 		this.avatar = avatar;
 		this.typeId = typeId;
 		this.isActive = isActive;
+		this.roles = roles;
 	}
 	
 	public int getIdUser() {
@@ -81,10 +83,28 @@ public class Account {
 		this.isActive = isActive;
 	}
 
+	public ArrayList<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(ArrayList<Role> roles) {
+		this.roles = roles;
+	}
+	public int isAdmin() {
+		for(Role role : roles) {
+			if(role.getIdRole()==4) {
+				return 1;
+			}
+		}
+		return 0;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [userName=" + userName + ", passWord=" + passWord + "]";
+		return "Account [idUser=" + idUser + ", userName=" + userName + ", passWord=" + passWord + ", email=" + email
+				+ ", avatar=" + avatar + ", typeId=" + typeId + ", isActive=" + isActive + ", roles=" + roles + "]";
 	}
+
 	public int getmyRate(int idMovie) throws ClassNotFoundException, SQLException {
 		Rate rate = new Rate();
 		int rs=rate.getRate(userName, idMovie);

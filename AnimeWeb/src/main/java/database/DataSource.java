@@ -20,8 +20,8 @@ public class DataSource {
 		config.setUsername(USER);
 		config.setPassword(PASS);
 		config.setDriverClassName(CLASS_NAME);
-		config.setMinimumIdle(100);
-		config.setMaximumPoolSize(5000);
+		config.setMinimumIdle(5);
+		config.setMaximumPoolSize(30);
 		config.setConnectionTimeout(50000);
 		config.addDataSourceProperty("cachePrepStmts", "true");
 		config.addDataSourceProperty("prepStmtCacheSize", "250");
