@@ -32,14 +32,8 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body>
-<c:if test="${empty sessionScope.user}">
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-		<c:if test="${(sessionScope.user.isAdmin!=1)}">
-			<% request.getSession().invalidate(); %>
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-	<c:url var="ChapterAdmin" value="ChapterAdmin"></c:url>
+
+	
 	<c:import url="header.jsp"></c:import>
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="anime.web.resources.app" />
@@ -61,7 +55,7 @@
 					<c:forEach var="chapter" items="${movieBeUpdate.listchapter}">
 
 						<form
-							action="${ChapterAdmin}?type=setting&&idMovie=${chapter.idMovie}&&index=${chapter.index}"
+							action="ChapterAdmin?type=setting&&idMovie=${chapter.idMovie}&&index=${chapter.index}"
 							method="post">
 							<div class="listChap">
 								<fmt:message>button.episodes</fmt:message>${chapter.index}
@@ -83,7 +77,7 @@
 			</div>
 			<div class="editChapter">
 				<form
-					action="${ChapterAdmin}?type=add&&idMovie=${movieBeUpdate.idMovie}&&index=${movieBeUpdate.listchapter.size()+1}"
+					action="ChapterAdmin?type=add&&idMovie=${movieBeUpdate.idMovie}&&index=${movieBeUpdate.listchapter.size()+1}"
 					method="post" enctype='multipart/form-data'>
 					<fmt:message>admin.addnewep</fmt:message>
 					${movieBeUpdate.listchapter.size()+1} <br>

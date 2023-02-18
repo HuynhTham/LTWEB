@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
-import database.Login;
+import database.DAOAccounts;
 import model.Account;
 import model.Encode;
 import model.ListAccount;
@@ -72,7 +72,7 @@ public class profile extends HttpServlet {
 			
 		
 	
-			Login login = new Login();
+			DAOAccounts login = new DAOAccounts();
 		
 		
 		
@@ -90,7 +90,7 @@ public class profile extends HttpServlet {
 				
 				
 		
-				ListAccount listAc = new ListAccount(new Login().getConnection());
+				ListAccount listAc = new ListAccount(new DAOAccounts().getConnection());
 				getServletContext().setAttribute("listUser",listAc);
 			
 				session.setAttribute("user", listAc.findByUserName(user.getUserName()));

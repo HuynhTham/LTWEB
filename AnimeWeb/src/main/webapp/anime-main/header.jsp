@@ -4,27 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
-<c:url var="index" value="/anime-main/index.jsp" />
-<c:url var="login" value="/anime-main/login.jsp" />
-<c:url var="signup" value="/anime-main/signup.jsp" />
 
-<c:url var="categories" value="/anime-main/categories.jsp" />
-<c:url var="blogdetails" value="/anime-main/blog-details.jsp" />
-<c:url var="blog" value="/anime-main/blog.jsp" />
-<c:url var="animewatching" value="/anime-main/anime-watching.jsp" />
-<c:url var="animedetails" value="/anime-main/anime-details.jsp" />
-<c:url var="anime_details" value="anime_details" />
-<c:url var="loginServlet" value="login" />
 <jsp:useBean id="now" class="java.util.Date" scope="request" />
-<c:url var="follow" value="follow" />
-<c:url var="urlAvatar"
-	value="${request.servletContext.realPath}/anime-main/storage/avatarUser/${user.avatar}?${now}" />
-
-
+<c:url var="urlAvatar" value="${request.servletContext.realPath}/anime-main/storage/avatarUser/${user.avatar}?${now}" />
 <fmt:setBundle basename="anime.web.resources.app" />
-<c:url var="profileServlet" value="/anime-main/profile.jsp" />
-<c:url var="GenreSl" value="genre" />
-<c:url var="goBlog" value="/anime-main/blog.jsp" />
 <header class="header">
 
 	<fmt:setBundle basename="anime.web.resources.app" />
@@ -32,7 +15,7 @@
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="header__logo">
-					<a href="${index}"> <img src="img/logo.png" alt="">
+					<a href="index.jsp"> <img src="img/logo.png" alt="">
 					</a>
 				</div>
 			</div>
@@ -42,19 +25,19 @@
 				<div class="header__nav">
 					<nav class="header__menu mobile-menu">
 						<ul>
-							<li class="active"><a href="${index}"><fmt:message>menu.hompage</fmt:message></a></li>
+							<li class="active"><a href="index.jsp"><fmt:message>menu.hompage</fmt:message></a></li>
 							<li><a href="#"><fmt:message>menu.categories</fmt:message><span
 									class="arrow_carrot-down"></span></a>
 								<div class="dropdown">
 									<ul>
 										<c:forEach var="genre" items="${listMovie.listGenre}">
-											<li><a href="${GenreSl}?genre=${genre}"><fmt:message>${genre}</fmt:message>
+											<li><a href="genre?genre=${genre}"><fmt:message>${genre}</fmt:message>
 											</a></li>
 										</c:forEach>
 									</ul>
 								</div></li>
 
-							<li><a href="${goBlog}"><fmt:message>menu.ourblog</fmt:message></a></li>
+							<li><a href="blog.jsp"><fmt:message>menu.ourblog</fmt:message></a></li>
 							<li><a href="https://www.facebook.com/profile.php?id=100012214729084"><fmt:message>menu.contracts</fmt:message></a></li>
 							<li><a href="#"><fmt:message>content.langue</fmt:message></a>
 								<div class="dropdown">
@@ -93,11 +76,11 @@
 									<img alt="" src="${urlAvatar}" id="avtUser" onclick="vision()">
 									<ul class="profile" id="profile">
 
-										<li><a href="${profileServlet}"><button class="">
+										<li><a href="profile.jsp"><button class="">
 													<fmt:message>header.account</fmt:message>
 												</button></a></li>
-										<li><a href="${follow}?type=listFollow"><fmt:message>header.follow</fmt:message></a>
-										<li><a href="${loginServlet}"><button
+										<li><a href="follow?type=listFollow"><fmt:message>header.follow</fmt:message></a>
+										<li><a href="login.jsp"><button
 													class="fas fa-sign-out-alt"></button></a></li>
 
 									</ul>
@@ -110,13 +93,13 @@
 									<img alt="" src="${urlAvatar}" id="avtUser" onclick="vision()">
 									<ul class="profile" id="profile">
 
-										<li><a href="${profileServlet}"><button class="">
+										<li><a href="profile.jsp"><button class="">
 													<fmt:message>header.account</fmt:message>
 												</button></a></li>
-										<li><a href="${follow}?type=listFollow"><fmt:message>header.follow</fmt:message></a>
+										<li><a href="follow?type=listFollow"><fmt:message>header.follow</fmt:message></a>
 											<c:url var="adm" value="../admin/featureAdmin" />
 										<li><a href="${adm}"><button class="fa fa-cog"></button></a></li>
-										<li><a href="${loginServlet}"><button
+										<li><a href="login.jsp"><button
 													class="fas fa-sign-out-alt"></button></a></li>
 
 									</ul>
@@ -125,9 +108,9 @@
 
 						</c:when>
 						<c:when test="${empty sessionScope.user}">
-							<a href="${login}"><fmt:message>menu.login</fmt:message> </a>
+							<a href="login.jsp"><fmt:message>menu.login</fmt:message> </a>
 							<font color="#e53637"> / </font>
-							<a href="${signup}"><fmt:message>menu.signup</fmt:message></a>
+							<a href="signup.jsp"><fmt:message>menu.signup</fmt:message></a>
 
 						</c:when>
 					</c:choose>

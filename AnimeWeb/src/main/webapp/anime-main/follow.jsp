@@ -33,20 +33,16 @@
 </head>
 
 <body>
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
+	
+	
+	
+	
 
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blogdetails" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-details.jsp" />
-	<c:url var="anime_details" value="anime_details" />
-	<c:url var="loginServlet" value="login" />
+	
+
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="profileServlet" value="/anime-main/profile.jsp" />
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -148,7 +144,7 @@
 												<li>${movie.genre}</li>
 											</ul>
 											<h5>
-												<a href="${anime_details}?idMv=${movie.idMovie}">${movie.nameMovie}</a>
+												<a href="anime_details?idMv=${movie.idMovie}">${movie.nameMovie}</a>
 											</h5>
 										</div>
 									</div>

@@ -36,24 +36,10 @@
 <body>
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}?${now}" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime_details" value="anime_details" />
-	<c:url var="anime-details" value="/anime-main/anime-deails.jsp" />
-
 	<c:url var="urlAvatarFilm"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarMovie/${viewFilm.avatar}?${now}" />
-	<c:url var="anime_watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="userComment" value="comment" />
-	<c:url var="follow" value="follow" />
-	<c:url var="voteMovie" value="rateMovie" />
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -69,7 +55,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="breadcrumb__links">
-						<a href="${index}"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
+						<a href="index.jsp"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
 						<a href=""><fmt:message>menu.categories</fmt:message></a>
 
 					</div>
@@ -135,7 +121,7 @@
 
 									<c:when test="${checkFl==false}">
 
-										<a href="${follow}?idMv=${viewFilm.idMovie}" class="follow-btn">
+										<a href="follow?idMv=${viewFilm.idMovie}" class="follow-btn">
 											<i class="fa fa-heart-o"></i> <fmt:message>button.follow</fmt:message>
 
 										</a>
@@ -143,14 +129,14 @@
 									</c:when>
 									<c:when test="${empty checkFl}">
 
-										<a href="${follow}?idMv=${viewFilm.idMovie}" class="follow-btn">
+										<a href="follow?idMv=${viewFilm.idMovie}" class="follow-btn">
 											<i class="fa fa-heart-o"></i> <fmt:message>button.follow</fmt:message>
 
 										</a>
 
 									</c:when>
 									<c:when test="${checkFl==true}">
-										<a href="${follow}?idMv=${viewFilm.idMovie}" class="follow-btn">
+										<a href="follow?idMv=${viewFilm.idMovie}" class="follow-btn">
 											<i class="fa fa-heart"></i> <fmt:message>button.follow</fmt:message>
 
 										</a>
@@ -159,14 +145,14 @@
 
 
 								</c:choose>
-								<a href="${anime_details}?idf=${viewFilm.idMovie}"
+								<a href="anime_details?idf=${viewFilm.idMovie}"
 									class="watch-btn"><span><fmt:message>button.watch</fmt:message></span>
 									<i class="fa fa-angle-right"></i></a>
 								<button id="rateBtn">
 									<fmt:message>button.rate</fmt:message>
 								</button>
 								<div>
-									<form action="${voteMovie}?id=${viewFilm.idMovie}"
+									<form action="rateMovie?id=${viewFilm.idMovie}"
 										method="post" id="formVote">
 										<p class="fa fa-star rateStar"></p>
 										<p class="fa fa-star rateStar"></p>
@@ -239,7 +225,7 @@
 							</h5>
 						</div>
 
-						<form action="${userComment}">
+						<form action="comment" method="post">
 							<textarea placeholder="Your Comment" name="message"></textarea>
 							<button type="submit" value="${viewFilm.idMovie}" name="saveID">
 								<i class="fa fa-location-arrow"></i>

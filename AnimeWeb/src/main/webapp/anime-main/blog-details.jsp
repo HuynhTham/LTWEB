@@ -34,18 +34,10 @@
 
 <body>
 	<!-- Page Preloder -->
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-deails.jsp" />
-	<c:url var="commenttoBlog" value="commentBlog" />
+
+	
 	
 	<div id="preloder">
 		<div class="loader"></div>
@@ -169,7 +161,7 @@
 
 									</c:forEach>
 									<form
-										action="${commenttoBlog}?type=repcmt&&idblog=${currentBlog.idBlog}"
+										action="commentBlog?type=repcmt&&idblog=${currentBlog.idBlog}"
 										style="display: none;" method="post" class="formComment">
 
 										<textarea placeholder="Your Comment" name="message"
@@ -201,7 +193,7 @@
 						<div class="blog__details__form">
 							<h4>Leave A Commnet</h4>
 							<form
-								action="${commenttoBlog}?type=bigcmt&&idblog=${currentBlog.idBlog}"
+								action="commentBlog?type=bigcmt&&idblog=${currentBlog.idBlog}"
 								method="post">
 								<div class="row">
 									<div class="col-lg-12">

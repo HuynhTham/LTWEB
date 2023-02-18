@@ -38,19 +38,13 @@
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
+	
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-deails.jsp" />
-	<c:url var="loginServlet" value="login" />
+	
+
 	<!-- Header Section Begin -->
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="anime.web.resources.app" />
@@ -87,7 +81,7 @@
 						<h3>
 							<fmt:message>menu.login</fmt:message>
 						</h3>
-						<form action="${loginServlet}" method="get">
+						<form action="login" method="get">
 							<div class="input__item">
 								<input required="required" type="text" placeholder="User Name"
 									name="loginName"> <span class="icon_mail"></span>
@@ -113,7 +107,7 @@
 						<h3>
 							<fmt:message>signup.message</fmt:message>
 						</h3>
-						<a href="${signup}" class="primary-btn"><fmt:message>button.signup</fmt:message></a>
+						<a href="/signup.jsp" class="primary-btn"><fmt:message>button.signup</fmt:message></a>
 					</div>
 				</div>
 			</div>

@@ -24,7 +24,7 @@ public class movie {
 	}
 
 	public Account findUser(String userName) throws ClassNotFoundException, SQLException {
-		Login login = new Login();
+		DAOAccounts login = new DAOAccounts();
 		ArrayList<Account> listAccount = login.getConnection();
 		for (Account ac : listAccount) {
 			if (userName.equalsIgnoreCase(ac.getUserName())) {

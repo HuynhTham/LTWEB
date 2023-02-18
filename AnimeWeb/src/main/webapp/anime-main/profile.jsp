@@ -36,19 +36,13 @@
 <body>
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
+
+
+	
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="profileServlet" value="profile" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-deails.jsp" />
-	<c:url var="profile" value="/anime-main/profile.jsp" />
+	
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -109,7 +103,7 @@
 	</section>
 	<section class="product spad">
 		<div class="container">
-			<form action="${profileServlet}" method="post"
+			<form action="profile" method="post"
 				enctype='multipart/form-data' id="editProfile">
 				<div class="changeAvatar">
 					<fmt:message>content.pic</fmt:message>

@@ -31,14 +31,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:if test="${empty sessionScope.user}">
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-		<c:if test="${(sessionScope.user.isAdmin!=1)}">
-			<% request.getSession().invalidate(); %>
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-	<c:url var="ChapterAdmin" value="ChapterAdmin"></c:url>
+
+	
 	<c:import url="header.jsp"></c:import>
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="anime.web.resources.app" />
@@ -47,7 +41,7 @@
 			<div class="editChapter">
 				<div class="col-lg-12">
 					<form
-						action="${ChapterAdmin}?type=setting&&idMovie=${movieBeUpdate.idMovie}&&index=${index}"
+						action="ChapterAdmin?type=setting&&idMovie=${movieBeUpdate.idMovie}&&index=${index}"
 						method="post" enctype='multipart/form-data'>
 						<p>
 							<fmt:message>button.episodes</fmt:message>${index}</p>

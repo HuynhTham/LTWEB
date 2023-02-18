@@ -38,22 +38,14 @@
 <body>
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-details.jsp" />
+
 	<c:url var="urlAvatarFilm"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarMovie/${viewFilm.avatar}" />
 	<c:url var="chapterBegin"
 		value="${request.rervletContext.realPath}/anime-main/storage/chapter/${linkChap}" />
-	<c:url var="goWatch" value="watching" />
-	<c:url var="userComment" value="comment" />
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -69,7 +61,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="breadcrumb__links">
-						<a href="${index}"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
+						<a href="index.jsp"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
 						<span>${viewFilm.nameMovie}</span>
 					</div>
 				</div>
@@ -100,7 +92,7 @@
 						</div>
 						<c:forEach var="chapter" items="${viewFilm.listchapter}">
 
-							<a href="${goWatch}?idM=${viewFilm.idMovie}&&chapter=${chapter.index}">Ep
+							<a href="watching?idM=${viewFilm.idMovie}&&chapter=${chapter.index}">Ep
 								${chapter.index}</a>
 
 						</c:forEach>
@@ -141,7 +133,7 @@
 								<fmt:message>conten.comment</fmt:message>
 							</h5>
 						</div>
-						<form action="${userComment}">
+						<form action="comment" method="post">
 							<textarea placeholder="Your Comment" name="message"></textarea>
 							<button type="submit" value="${viewFilm.idMovie}" name="saveID">
 								<i class="fa fa-location-arrow"></i>

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.Login;
+import database.DAOAccounts;
 import database.Register;
 import model.Account;
 import model.Encode;
@@ -71,7 +71,7 @@ public class login extends HttpServlet {
 						session.setAttribute("nameOld", "");
 						session.setAttribute("passOld", "");
 						register.createAccount(userName, pass, email);
-						getServletContext().setAttribute("listUser", new ListAccount(new Login().getConnection()));
+						getServletContext().setAttribute("listUser", new ListAccount(new DAOAccounts().getConnection()));
 						url = getServletContext().getContextPath() + "/anime-main/index.jsp";
 					} else {
 						session.setAttribute("errorSignup", "Tên tài khoản đã tồn tại");
