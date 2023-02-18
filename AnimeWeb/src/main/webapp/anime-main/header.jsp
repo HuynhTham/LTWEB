@@ -71,7 +71,7 @@
 					<table id="renderSearch"></table>
 					<c:choose>
 						<c:when test="${not empty sessionScope.user}">
-							<c:if test="${sessionScope.user.isAdmin==0}">
+							<c:if test="${sessionScope.isAdmin==0}">
 								<div>
 									<img alt="" src="${urlAvatar}" id="avtUser" onclick="vision()">
 									<ul class="profile" id="profile">
@@ -86,7 +86,7 @@
 									</ul>
 								</div>
 							</c:if>
-							<c:if test="${sessionScope.user.isAdmin==1}">
+							<c:if test="${sessionScope.isAdmin==1}">
 								<div>
 									<fmt:setLocale value="${sessionScope.LANG}" />
 									<fmt:setBundle basename="anime.web.resources.app" />

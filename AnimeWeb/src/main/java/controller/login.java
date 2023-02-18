@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import database.DAOAccounts;
-import database.Register;
+import model.VerifyRecaptcha;
 import model.Account;
 import model.Encode;
-import model.ListAccount;
 
 @WebServlet("/anime-main/login")
 public class login extends HttpServlet {
@@ -25,81 +24,116 @@ public class login extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		ListAccount listAccount = (ListAccount) getServletContext().getAttribute("listUser");
+
 		String userName = request.getParameter("loginName");
 		String passWord = request.getParameter("loginPassword");
 		HttpSession session = request.getSession();
-		String pass = encrypt.toSHA1(passWord);
-		String sessionId = ";jsessionid=" + session.getId();
-		String query = request.getParameter("accountBtn");
-		Account account = null;
-		String url = null;
-		if ("login".equals(query)) {
-			boolean error = false;
-			System.out.println(pass);
-			account = listAccount.checkLogin(userName, pass);
-			if (account != null) {
-				session.setAttribute("user", account);
-				url = getServletContext().getContextPath() + "/anime-main/index.jsp" + sessionId;
+		String error = String.valueOf(session.getAttribute("countError"));
 
-			} else {
-				error = true;
+		String encryptPass = encrypt.toSHA1(passWord);
+		Account user = null;
+		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
+		DAOAccounts daoAccount = new DAOAccounts();
 
+		try {
 		
-				url = getServletContext().getContextPath() + "/anime-main/login.jsp";
-			}
-			if (error == true) {
-				session.setAttribute("errorLogin", "Tên tài khoản hoặc mật khẩu sai");
-			}
+				user = daoAccount.baseLogin(userName, encryptPass);
+				if (verify) {
+					if (user != null) {
+						if (user.getIsActive() == 1) {
+							session.setAttribute("user", user);
+							session.setAttribute("isAdmin", user.isAdmin());
 
-		}
-		if ("signup".equals(query)) {
-			String email = request.getParameter("email");
-			// validation
-			boolean error = false;
-			if (userName.length() > 25 || userName.length() < 6 || passWord.length() < 6 || passWord.length() > 100) {
-				error = true;
-			}
-
-			if (error == false) {
-				Register register = new Register();
-				try {
-					boolean check = listAccount.checkRegister(userName);
-					if (check) {
-						session.setAttribute("errorSignup", "");
-						session.setAttribute("mailOld", "");
-						session.setAttribute("nameOld", "");
-						session.setAttribute("passOld", "");
-						register.createAccount(userName, pass, email);
-						getServletContext().setAttribute("listUser", new ListAccount(new DAOAccounts().getConnection()));
-						url = getServletContext().getContextPath() + "/anime-main/index.jsp";
+							session.removeAttribute("countError");
+							request.getRequestDispatcher("/index.jsp").forward(request, response);
+						} else {
+							request.setAttribute("errorLogin",
+									"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
+							request.getRequestDispatcher("/login.jsp").forward(request, response);
+						}
 					} else {
-						session.setAttribute("errorSignup", "Tên tài khoản đã tồn tại");
-						session.setAttribute("mailOld", email);
-						session.setAttribute("nameOld", userName);
-						session.setAttribute("passOld", passWord);
-						url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
+						int idUser = daoAccount.findIdByUserName(userName);
+						int countError = 1;
+						if (idUser != -1) {
+							String oldUserName = (String) session.getAttribute("oldUserName");
+							request.setAttribute("errorLogin", "Sai mật khảu");
+							if (error != "null") {
+								if (userName.equalsIgnoreCase(oldUserName)) {
+									countError = Integer.parseInt(error) + 1;
+								} else {
+									session.setAttribute("oldUserName", userName);
+								}
+
+							}
+							session.setAttribute("countError", countError);
+
+							if (countError >= 5) {
+
+								daoAccount.blockAccount(idUser);
+								request.setAttribute("errorLogin",
+										"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
+
+							}
+							request.getRequestDispatcher("/login.jsp").forward(request, response);
+
+						} else {
+							request.setAttribute("errorLogin", "Sai thông tin tài khoản");
+							request.getRequestDispatcher("/login.jsp").forward(request, response);
+						}
 					}
-
-				} catch (ClassNotFoundException | SQLException e) {
-
-					response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
+				} else {
+					request.setAttribute("errorLogin", "Lỗi captcha");
+					request.getRequestDispatcher("/login.jsp").forward(request, response);
 				}
-			} else {
-				session.setAttribute("errorSignup", "Đăng ký không thành công do lỗi dữ liệu");
-				session.setAttribute("mailOld", email);
-				session.setAttribute("nameOld", userName);
-				session.setAttribute("passOld", passWord);
-				url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
-			}
-
-		}
-		if (query == null) {
-			session.invalidate();
-			url = getServletContext().getContextPath() + "/anime-main/index.jsp";
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png" + "\">");
 		}
 
-		response.sendRedirect(url);
+
+//		if ("signup".equals(query)) {
+//			String email = request.getParameter("email");
+//			// validation
+//			boolean error = false;
+//			if (userName.length() > 25 || userName.length() < 6 || passWord.length() < 6 || passWord.length() > 100) {
+//				error = true;
+//			}
+//
+//			if (error == false) {
+//				Register register = new Register();
+//				try {
+//					boolean check = listAccount.checkRegister(userName);
+//					if (check) {
+//						session.setAttribute("errorSignup", "");
+//						session.setAttribute("mailOld", "");
+//						session.setAttribute("nameOld", "");
+//						session.setAttribute("passOld", "");
+//						register.createAccount(userName, pass, email);
+//						getServletContext().setAttribute("listUser", new ListAccount(new DAOAccounts().getConnection()));
+//						url = getServletContext().getContextPath() + "/anime-main/index.jsp";
+//					} else {
+//						session.setAttribute("errorSignup", "Tên tài khoản đã tồn tại");
+//						session.setAttribute("mailOld", email);
+//						session.setAttribute("nameOld", userName);
+//						session.setAttribute("passOld", passWord);
+//						url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
+//					}
+//
+//				} catch (ClassNotFoundException | SQLException e) {
+//
+//					response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
+//				}
+//			} else {
+//				session.setAttribute("errorSignup", "Đăng ký không thành công do lỗi dữ liệu");
+//				session.setAttribute("mailOld", email);
+//				session.setAttribute("nameOld", userName);
+//				session.setAttribute("passOld", passWord);
+//				url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
+//			}
+//
+//		}
 
 	}
 
