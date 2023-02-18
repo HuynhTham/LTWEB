@@ -11,8 +11,8 @@ import controller.login;
 import model.Account;
 
 
-public class Login {
-	public Login() {
+public class DAOAccounts {
+	public DAOAccounts() {
 
 	}
 
@@ -69,16 +69,19 @@ public class Login {
 		boolean rs = check==1?true:false;
 		return rs;
 	}
+	
+	
 
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-	System.out.println(new Login().getConnection());
+	System.out.println(new DAOAccounts().getConnection());
 	System.out.println(new movie().getMovie());
 	System.out.println(new blog().getlistBlog());
 	Connection conn = null;
 	conn = DataSource.getConnection();
 	PreparedStatement ps = conn.prepareStatement("SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND   TABLE_NAME   = ?");
-	ps.setString(1, "projectweb");
-	ps.setString(2, "movie");
+	ps.setString(1, "animeweb");
+	ps.setString(2, "accounts");
 	ResultSet n = ps.executeQuery();
 	n.next();
 	System.out.println(n.getInt(1));

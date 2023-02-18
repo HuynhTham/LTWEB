@@ -87,18 +87,10 @@
 </style>
 </head>
 <body>
-	<c:if test="${empty sessionScope.user}">
-		<c:redirect url="/anime-main/login.jsp" />
-	</c:if>
-	<c:if test="${(sessionScope.user.isAdmin!=1)}">
-		<%
-		request.getSession().invalidate();
-		%>
-		<c:redirect url="/anime-main/login.jsp" />
-	</c:if>
+	
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="adm" value="Admin"></c:url>
+
 	<c:import url="header.jsp"></c:import>
 
 	<div class="container">
@@ -127,7 +119,7 @@
 							<fmt:message>content.newmoive</fmt:message>
 						</p>
 					</div>
-					<form action="${adm}?type=addMovie" method="post"
+					<form action="Admin?type=addMovie" method="post"
 						enctype='multipart/form-data' id="postBlog">
 						<div class="postUpload">
 							<br>
@@ -172,7 +164,7 @@
 
 					<c:forEach var="movie" items="${listMovie.listMovie}">
 						<div class="settings_fim">
-							<form action="${adm}?type=settingMovie&&idMovie=${movie.idMovie}"
+							<form action="Admin?type=settingMovie&&idMovie=${movie.idMovie}"
 								method="post">
 								<img class="avat" alt=""
 									src="../anime-main/storage/avatarMovie/${movie.avatar}?${now}"

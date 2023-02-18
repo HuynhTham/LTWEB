@@ -36,18 +36,11 @@
 <body>
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
+
 	<c:url var="urlAvatar"
 		value="/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-details.jsp" />
-	<c:url var="anime_details" value="anime_details" />
+	
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -63,8 +56,8 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="breadcrumb__links">
-						<a href="${index}"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
-						<a href="./categories.jsp"><fmt:message>menu.categories</fmt:message></a> <span><fmt:message>${rqGenre}</fmt:message></span>
+						<a href="index.jsp"><i class="fa fa-home"></i> <fmt:message>menu.hompage</fmt:message></a>
+						<a href="categories.jsp"><fmt:message>menu.categories</fmt:message></a> <span><fmt:message>${rqGenre}</fmt:message></span>
 					</div>
 				</div>
 			</div>
@@ -86,7 +79,7 @@
 							</div>
 							<div class="col-lg-4 col-md-4 col-sm-4">
 								<div class="btn__all">
-									<a href="${index}" class="primary-btn"><fmt:message>viewall</fmt:message> <span
+									<a href="index.jsp" class="primary-btn"><fmt:message>viewall</fmt:message> <span
 										class="arrow_right"></span></a>
 								</div>
 							</div>
@@ -122,7 +115,7 @@
 											<h5>
 
 
-												<a href="${anime_details}?idMv=${movie.idMovie}">${movie.nameMovie}</a>
+												<a href="anime_details?idMv=${movie.idMovie}">${movie.nameMovie}</a>
 											</h5>
 										</div>
 									</div>

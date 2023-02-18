@@ -36,18 +36,11 @@
 <body>
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	<c:url var="index" value="/anime-main/index.jsp" />
-	<c:url var="login" value="/anime-main/login.jsp" />
-	<c:url var="signup" value="/anime-main/signup.jsp" />
-	<c:url var="loginServlet" value="login" />
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	<c:url var="categories" value="/anime-main/categories.jsp" />
-	<c:url var="blog-details" value="/anime-main/blog-details.jsp" />
-	<c:url var="blog" value="/anime-main/blog.jsp" />
-	<c:url var="anime-watching" value="/anime-main/anime-watching.jsp" />
-	<c:url var="anime-details" value="/anime-main/anime-deails.jsp" />
-	<c:url var="gotoBlogDetail" value="gotoblog" />
+	
+	
+
 	
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -95,7 +88,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(0).getIdBlog()}">${listBlog.getbyColumn(i).get(0).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(0).getIdBlog()}">${listBlog.getbyColumn(i).get(0).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -110,7 +103,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(1).getIdBlog()}">${listBlog.getbyColumn(i).get(1).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(1).getIdBlog()}">${listBlog.getbyColumn(i).get(1).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -125,7 +118,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(2).getIdBlog()}">${listBlog.getbyColumn(i).get(2).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(2).getIdBlog()}">${listBlog.getbyColumn(i).get(2).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -140,7 +133,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(3).getIdBlog()}">${listBlog.getbyColumn(i).get(3).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(3).getIdBlog()}">${listBlog.getbyColumn(i).get(3).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -155,7 +148,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(4).getIdBlog()}">${listBlog.getbyColumn(i).get(4).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(4).getIdBlog()}">${listBlog.getbyColumn(i).get(4).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -170,7 +163,7 @@
 											</p>
 											<h4>
 												<a
-													href="${gotoBlogDetail}?idBlog=${listBlog.getbyColumn(i).get(5).getIdBlog()}">${listBlog.getbyColumn(i).get(5).getTitle()}</a>
+													href="gotoblog?idBlog=${listBlog.getbyColumn(i).get(5).getIdBlog()}">${listBlog.getbyColumn(i).get(5).getTitle()}</a>
 											</h4>
 										</div>
 									</div>
@@ -190,7 +183,7 @@
 										<span class="icon_calendar"></span> ${blogItem.getDayDebut()}
 									</p>
 									<h4>
-										<a href="${gotoBlogDetail}?idBlog=${blogItem.getIdBlog()}">${blogItem.getTitle()}</a>
+										<a href="gotoblog?idBlog=${blogItem.getIdBlog()}">${blogItem.getTitle()}</a>
 									</h4>
 								</div>
 							</div>

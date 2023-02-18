@@ -27,14 +27,7 @@
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
 </head>
 <body>
-<c:if test="${empty sessionScope.user}">
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-		<c:if test="${(sessionScope.user.isAdmin!=1)}">
-			<% request.getSession().invalidate(); %>
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-	<c:url var="adm" value="Admin"></c:url>
+
 	<c:import url="header.jsp"></c:import>
 
 	<fmt:setLocale value="vi_VN" />
@@ -54,7 +47,7 @@
 					style="overflow: auto; height: 600px !important; width: 100% !important">
 					<c:forEach var="user" items="${listUser.list}">
 						<form
-							action="${adm}?type=settingAccount&&userName=${user.userName}"
+							action="Admin?type=settingAccount&&userName=${user.userName}"
 							method="post">
 							<img alt=""
 								src="../anime-main/storage/avatarUser/${user.avatar}?${now}"

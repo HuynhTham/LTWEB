@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import database.Login;
+import database.DAOAccounts;
 import database.blog;
 import database.movie;
 import model.Account;
@@ -250,9 +250,9 @@ public class Admin extends HttpServlet {
 					}
 					if(update!=null) {
 						try {
-							boolean isSuccess = new Login().settingUser(userName, passWord, email);
+							boolean isSuccess = new DAOAccounts().settingUser(userName, passWord, email);
 							if(isSuccess) {
-								getServletContext().setAttribute("listUser",new ListAccount( new Login().getConnection()));
+								getServletContext().setAttribute("listUser",new ListAccount( new DAOAccounts().getConnection()));
 								request.getRequestDispatcher("/admin/userManagerment.jsp").forward(request, response);
 							}else {
 								response.getWriter().print("error");
@@ -264,9 +264,9 @@ public class Admin extends HttpServlet {
 					}
 					if(delete!=null) {
 						try {
-							boolean isSuccess = new Login().deleteUser(userName);
+							boolean isSuccess = new DAOAccounts().deleteUser(userName);
 							if(isSuccess) {
-								getServletContext().setAttribute("listUser",new ListAccount( new Login().getConnection()));
+								getServletContext().setAttribute("listUser",new ListAccount( new DAOAccounts().getConnection()));
 								request.getRequestDispatcher("/admin/userManagerment.jsp").forward(request, response);
 							}else {
 								response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");

@@ -22,6 +22,7 @@ public class changePage extends HttpServlet {
 			request.setAttribute("offset",offset);
 			request.getRequestDispatcher("/anime-main/index.jsp").forward(request, response);
 		}
+		
 		if("categories".equalsIgnoreCase(type)) {
 
 			int offset = Integer.parseInt(PageNumber);

@@ -28,14 +28,8 @@
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
 </head>
 <body>
-<c:if test="${empty sessionScope.user}">
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-		<c:if test="${(sessionScope.user.isAdmin!=1)}">
-			<% request.getSession().invalidate(); %>
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-	<c:url var="adm" value="Admin"></c:url>
+
+
 	<c:import url="header.jsp"></c:import>
 
 	<fmt:setLocale value="vi_VN" />
@@ -51,7 +45,7 @@
 							<fmt:message>content.post</fmt:message>
 						</p>
 					</div>
-					<form action="${adm}?type=upBlog" method="post"
+					<form action="Admin?type=upBlog" method="post"
 						enctype='multipart/form-data' id="postBlog">
 
 						<p>
@@ -96,7 +90,7 @@
 				style="overflow: auto; height: 300px !important;">
 				<c:forEach var="blog" items="${listBlog.list}">
 					<div class="blog_edit">
-						<form action="${adm}?type=settingBlog&&idBlog=${blog.idBlog}"
+						<form action="Admin?type=settingBlog&&idBlog=${blog.idBlog}"
 							method="post">
 							<img alt=""
 								src="../anime-main/storage/blogSave/${blog.folder}/${blog.avt}?${now}"

@@ -27,14 +27,8 @@
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
 </head>
 <body>
-<c:if test="${empty sessionScope.user}">
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-		<c:if test="${(sessionScope.user.isAdmin!=1)}">
-			<% request.getSession().invalidate(); %>
-		<c:redirect url ="/anime-main/login.jsp"/>
-		</c:if>
-	<c:url var="admin" value="Admin"></c:url>
+
+
 	<c:import url="header.jsp"></c:import>
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="anime.web.resources.app" />
@@ -49,7 +43,7 @@
 				</div>
 				<div class="col-lg-12">
 					<form
-						action="${adm}?type=settingBlog&&idBlog=${blogBeUpdate.idBlog}"
+						action="Admin?type=settingBlog&&idBlog=${blogBeUpdate.idBlog}"
 						method="post" enctype='multipart/form-data' id="postBlog">
 						<div class="postUpload">
 							<fmt:message>content.file</fmt:message>

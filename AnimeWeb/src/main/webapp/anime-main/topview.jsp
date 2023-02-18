@@ -2,21 +2,10 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:url var="index" value="/anime-main/index.jsp" />
-<c:url var="login" value="/anime-main/login.jsp" />
-<c:url var="signup" value="/anime-main/signup.jsp" />
 
-<c:url var="categories" value="/anime-main/categories.jsp" />
-<c:url var="blogdetails" value="/anime-main/blog-details.jsp" />
-<c:url var="blog" value="/anime-main/blog.jsp" />
-<c:url var="animewatching" value="/anime-main/anime-watching.jsp" />
-<c:url var="animedetails" value="/anime-main/anime-details.jsp" />
-<c:url var="anime_details" value="anime_details" />
-<c:url var="loginServlet" value="login" />
+
 <c:url var="urlAvatar"
 	value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-<c:url var="profileServlet" value="/anime-main/profile.jsp" />
-<c:url var="GenreSl" value="genre" />
 <div class="col-lg-4 col-md-6 col-sm-8">
 	<div class="product__sidebar">
 		<fmt:setLocale value="${sessionScope.LANG}" />
@@ -48,7 +37,7 @@
 						</div>
 
 						<h5>
-							<a href="${anime_details}?idMv=${mv.idMovie}">${mv.nameMovie}</a>
+							<a href="anime_details?idMv=${mv.idMovie}">${mv.nameMovie}</a>
 						</h5>
 					</div>
 				</c:forEach>
