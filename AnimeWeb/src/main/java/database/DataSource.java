@@ -9,7 +9,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class DataSource {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/animeweb";
 	private static final String USER = "root";
-	private static final String PASS = "Linh@27092002";
+	private static final String PASS = "hcdat1232580";
 	private static HikariConfig config = new HikariConfig();
 	private static final String CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 	private static HikariDataSource ds;
