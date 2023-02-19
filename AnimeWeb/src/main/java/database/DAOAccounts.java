@@ -222,18 +222,96 @@ public class DAOAccounts {
 		return rs;
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//	System.out.println(new DAOAccounts().getConnection());
-//	System.out.println(new movie().getMovie());
-//	System.out.println(new blog().getlistBlog());
+	// log in withfb
+	public Account checkAcountFacebook(String email, String idfb) throws SQLException {
 		Connection conn = null;
 		conn = DataSource.getConnection();
+
 		PreparedStatement ps = conn.prepareStatement(
-				"SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND   TABLE_NAME   = ?");
-		ps.setString(1, "animeweb");
-		ps.setString(2, "accounts");
-		ResultSet n = ps.executeQuery();
-		n.next();
-		System.out.println(n.getInt(1));
+				"SELECT a.idUser,a.UserName,a.Password,a.Email,a.avatar,a.typeId,a.isActive,fb.idFacebook FROM animeweb.accounts a join animeweb.accounts_facebook fb \r\n"
+						+ "on a.idUser=fb.idUser where a.Email=?and fb.idFacebook=? and a.typeId=3;");
+		ps.setString(1, email);
+		ps.setString(2, idfb);
+		ResultSet rs = ps.executeQuery();
+		int idUser;
+		Account account = null;
+		while (rs.next()) {
+			idUser = rs.getInt("idUser");
+			account = new Account(idUser, rs.getString("UserName"), rs.getString("Password"), rs.getString("Email"),
+					rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"), getRoleUser(idUser));
+		}
+		return account;
+	}
+
+	// add account fb if not exist on database
+
+	public void insertAcountFB(String userName, String idFB, String email) throws SQLException {
+		Account res = null;
+		Connection conn = null;
+		Encode encryption = new Encode();
+
+		// Dùng để lấy idUser vừa thêm vào
+		ResultSet rs = null;
+
+		PreparedStatement ps = null;
+		PreparedStatement ps2 = null;
+
+		try {
+			conn = DataSource.getConnection();
+			conn.setAutoCommit(false);// bật transaction
+			// insert vào bảng aacount
+			ps = conn.prepareStatement(
+					"INSERT INTO animeweb.accounts (UserName,Password,Email,avatar,typeId,isActive)VALUES (?,?,?,null,3,1)",
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, userName);
+			ps.setString(2, encryption.toSHA1(idFB));
+			ps.setString(3, email);
+			ps.executeUpdate();
+
+			rs = ps.getGeneratedKeys();
+			int candidateId = 0;
+			if (rs.next()) {
+				candidateId = rs.getInt(1);
+				// insert vào table fb
+				ps2 = conn.prepareStatement(
+						"INSERT INTO animeweb.accounts_facebook (idFacebook,Username,idUser,Email)values(?,?,?,?)");
+				ps2.setString(1, idFB);
+				ps2.setString(2, userName);
+				ps2.setInt(3, candidateId);
+				ps2.setString(4, email);
+				ps2.executeUpdate();
+			} else {
+				conn.commit();
+
+			}
+		} catch (SQLException e) {
+			if (conn != null) {
+				try {
+					conn.rollback(); // Rollback transaction nếu có lỗi
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (ps2 != null) {
+					ps2.close();
+				}
+				if (conn != null) {
+					conn.setAutoCommit(true); // Tắt transaction
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
 	}
 }
