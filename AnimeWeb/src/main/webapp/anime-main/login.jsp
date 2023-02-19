@@ -39,12 +39,12 @@
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
-	
+
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
 	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
-	
+
 
 	<!-- Header Section Begin -->
 	<fmt:setLocale value="vi_VN" />
@@ -85,15 +85,16 @@
 						<form action="login" method="get">
 							<div class="input__item">
 								<input required="required" type="text" placeholder="User Name"
-									name="loginName" value="${usName}"> <span class="icon_mail"></span>
+									name="loginName" value="${usName}"> <span
+									class="icon_mail"></span>
 							</div>
 							<div class="input__item">
 								<input type="password" required="required"
 									placeholder="Password" name="loginPassword"> <span
 									class="icon_lock"></span>
 							</div>
-						<div class="g-recaptcha"
-						data-sitekey="6Lf2nYwkAAAAADknQvj1Os2Ht92MMORFX3RhbQDo"></div>
+							<div class="g-recaptcha"
+								data-sitekey="6Lf2nYwkAAAAADknQvj1Os2Ht92MMORFX3RhbQDo"></div>
 							<button type="submit" class="site-btn" value="login"
 								name="accountBtn">
 								<fmt:message>button.login</fmt:message>
@@ -110,6 +111,11 @@
 							<fmt:message>signup.message</fmt:message>
 						</h3>
 						<a href="/signup.jsp" class="primary-btn"><fmt:message>button.signup</fmt:message></a>
+						<a
+							href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AnimeWeb/anime-main/login-google&response_type=code
+    &client_id=653759297281-qjl19np77aug293a6tahskvbfri39e4v.apps.googleusercontent.com&approval_prompt=force"
+							class="primary-btn"><fmt:message>Login With Google</fmt:message></a>
+
 					</div>
 				</div>
 			</div>
