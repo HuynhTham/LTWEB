@@ -68,18 +68,21 @@ public class LoginGoogleHandler extends HttpServlet {
 		String code = request.getParameter("code");
 		String accessToken = getToken(code);
 		UserGoogleDto userGoogle = getUserInfo(accessToken);
+		System.out.println(userGoogle);
 		String idg = userGoogle.getId();
 		String email = userGoogle.getEmail();
+		String userName = userGoogle.getName();
 		Account user = null;
 		DAOAccounts daoAccounts = new DAOAccounts();
 		try {
 			System.out.println(idg);
+			System.out.println(userGoogle);
 			int idUserGoogle;
 			idUserGoogle = daoAccounts.findIdUserGoogle(idg, email);
 			System.out.println(idUserGoogle);
 
 			if (idUserGoogle == -1) {
-				daoAccounts.addGoogle(idg, email);
+				daoAccounts.addGoogle(idg, email, userName);
 				System.out.println("dont");
 				int idUser = daoAccounts.findIdUserAccount(email, 2);
 				user = daoAccounts.loginAccountByGoogle(idUser, 2);

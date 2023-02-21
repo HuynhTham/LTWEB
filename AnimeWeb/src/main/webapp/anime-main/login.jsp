@@ -112,7 +112,7 @@
 						</h3>
 						<a href="/signup.jsp" class="primary-btn"><fmt:message>button.signup</fmt:message></a>
 						<a
-							href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AnimeWeb/anime-main/login-google&response_type=code
+							href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/AnimeWeb/anime-main/login-google&response_type=code
     &client_id=653759297281-qjl19np77aug293a6tahskvbfri39e4v.apps.googleusercontent.com&approval_prompt=force"
 							class="primary-btn"><fmt:message>Login With Google</fmt:message></a>
 
