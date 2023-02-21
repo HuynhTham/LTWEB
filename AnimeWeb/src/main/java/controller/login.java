@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import database.DAOAccounts;
-import model.VerifyRecaptcha;
+
 import model.Account;
 import model.Encode;
 
@@ -35,10 +35,12 @@ public class login extends HttpServlet {
 		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
-
+		String ipClient =request.getRemoteAddr();
+		String path = getServletContext().getRealPath("/");
 		try {
 		
-				user = daoAccount.baseLogin(userName, encryptPass);
+				user = daoAccount.baseLogin(userName, encryptPass,ipClient,path);
+				
 				if (verify) {
 					if (user != null) {
 						if (user.getIsActive() == 1) {
@@ -58,7 +60,7 @@ public class login extends HttpServlet {
 						if (idUser != -1) {
 							String oldUserName = (String) session.getAttribute("oldUserName");
 							request.setAttribute("errorLogin", "Sai mật khảu");
-							if (error != "null") {
+							if (!error.equals("null")) {
 								if (userName.equalsIgnoreCase(oldUserName)) {
 									countError = Integer.parseInt(error) + 1;
 								} else {
@@ -88,7 +90,7 @@ public class login extends HttpServlet {
 				}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png" + "\">");
 		}
 
