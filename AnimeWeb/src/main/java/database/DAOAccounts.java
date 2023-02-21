@@ -1,5 +1,6 @@
 package database;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
@@ -7,6 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.protocol.Resultset;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -45,36 +50,47 @@ public class DAOAccounts {
 
 	}
 
-	public ArrayList<Role> getRoleUser(int idUser) throws SQLException {
+	public ArrayList<Role> getRoleUser(int idUser, String userName, String path, String ip)
+			throws SQLException, FileNotFoundException {
 		ArrayList<Role> result = new ArrayList<Role>();
-		Connection conn = DataSource.getConnection();
-		PreparedStatement prepare = conn.prepareStatement(
-				"select a.idrole,description from animeweb.account_roles a join animeweb.roles r on a.idrole = r.idrole where a.idUser=?");
-		prepare.setInt(1, idUser);
-		ResultSet rs = prepare.executeQuery();
-		Role role;
-		while (rs.next()) {
-			role = new Role(rs.getInt("idrole"), rs.getString("description"));
-			result.add(role);
+		String query = "select a.idrole,description from animeweb.account_roles a join animeweb.roles r on a.idrole = r.idrole where a.idUser=?";
+		List<Object> params = new ArrayList<>();
+		params.add(idUser);
+
+		try (PreparedStatement prepare = DataSource.queryDB(query, true, ip, userName, "login getrole  ",
+				params,1); ResultSet rs = prepare.executeQuery();) {
+
+			Role role;
+			while (rs.next()) {
+				role = new Role(rs.getInt("idrole"), rs.getString("description"));
+				result.add(role);
+			}
+		
+			return result;
 		}
-		return result;
 	}
 
-	public Account baseLogin(String userName, String passWord) throws SQLException {
-		Account account = null;
-		Connection conn = DataSource.getConnection();
-		PreparedStatement prepare = conn.prepareStatement(
-				"SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName=? and Password =? and typeId=1");
-		prepare.setString(1, userName);
-		prepare.setString(2, passWord);
-		ResultSet rs = prepare.executeQuery();
-		if (rs.next()) {
-			account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
-					rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"), null);
-			account.setRoles(getRoleUser(account.getIdUser()));
+	public Account baseLogin(String userName, String passWord, String ip, String path)
+			throws SQLException, FileNotFoundException {
 
+		Account account = null;
+		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName=? and Password =? and typeId=1";
+		List<Object> params = new ArrayList<>();
+		params.add(userName);
+		params.add(passWord);
+		try (PreparedStatement prepare = DataSource.queryDB(query, true, ip, userName, "login action ",
+				params,1); 
+				ResultSet rs = prepare.executeQuery();) {
+			if (rs.next()) {
+				account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
+						rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"),
+						null);
+				account.setRoles(getRoleUser(account.getIdUser(), userName, path, ip));
+
+			}
+		
+			return account;
 		}
-		return account;
 	}
 
 	public int findIdUserGoogle(String idGoogle, String email) throws SQLException {
@@ -92,7 +108,7 @@ public class DAOAccounts {
 		return -1;
 	}
 
-	public Account loginAccountByGoogle(int idUser, int type) throws SQLException {
+	public Account loginAccountByGoogle(int idUser, int type) throws SQLException, FileNotFoundException {
 		Account account = null;
 		Connection conn = DataSource.getConnection();
 		PreparedStatement prepare = conn.prepareStatement(
@@ -125,7 +141,6 @@ public class DAOAccounts {
 		}
 		return -1;
 	}
-	
 
 	public void addGoogle(String idGoogle, String email, String userName) throws SQLException {
 		Connection conn = null;
