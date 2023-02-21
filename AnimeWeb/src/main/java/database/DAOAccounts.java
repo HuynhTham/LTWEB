@@ -125,23 +125,11 @@ public class DAOAccounts {
 		}
 		return -1;
 	}
+	
 
-//	public void addAccountTypeGoogle(String email) throws SQLException {
-//		Connection conn = DataSource.getConnection();
-//		String userName = email.substring(0, email.lastIndexOf("@"));
-//		Encode encrypt = new Encode();
-//		PreparedStatement prepare = conn.prepareStatement(
-//				"INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (?,?,?,null,2,1) ");
-//		prepare.setString(1, userName);
-//		prepare.setString(2, encrypt.toSHA1(userName));
-//		prepare.setString(3, email);
-//		prepare.executeUpdate();
-//
-//	}
-
-	public void addGoogle(String idGoogle, String email) throws SQLException {
+	public void addGoogle(String idGoogle, String email, String userName) throws SQLException {
 		Connection conn = null;
-		String userName = email.substring(0, email.lastIndexOf("@"));
+
 		Encode encrypt = new Encode();
 		ResultSet rs = null;
 		try {
