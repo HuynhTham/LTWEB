@@ -13,9 +13,6 @@
  	<error-code>404</error-code>
  	<location>/Error.jsp</location>
  </error-page>
-<context-param>
-<param-name>log4j-config-location</param-name>
-<param-value>WEB-INF/log4j.properties</param-value>
-</context-param>
+
 
 </web-app>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.slf4j.log4j12-1.6.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/org.slf4j.log4j12-1.6.4.jar/org.slf4j.log4j12-1.6.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -2,6 +2,7 @@ package model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import database.Rate;
 
@@ -13,7 +14,7 @@ public class Account {
 	private String avatar;
 	private int typeId;
 	private int isActive;
-	private ArrayList<Role> roles;
+	private List<Role> roles;
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
 			int isActive, ArrayList<Role> roles) {
 		super();
@@ -26,7 +27,23 @@ public class Account {
 		this.isActive = isActive;
 		this.roles = roles;
 	}
+	public Account() {
+		
+	}
 	
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
+			int isActive) {
+		super();
+		this.idUser = idUser;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.email = email;
+		this.avatar = avatar;
+		this.typeId = typeId;
+		this.isActive = isActive;
+	}
+
+
 	public int getIdUser() {
 		return idUser;
 	}
@@ -83,12 +100,12 @@ public class Account {
 		this.isActive = isActive;
 	}
 
-	public ArrayList<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(ArrayList<Role> roles) {
-		this.roles = roles;
+	public void setRoles(List<Role> listRole) {
+		this.roles = listRole;
 	}
 	public int isAdmin() {
 		for(Role role : roles) {

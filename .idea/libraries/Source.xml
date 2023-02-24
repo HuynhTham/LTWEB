@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Source">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/font-awesome-4.7.0.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/SlickNav-master.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/plyr-master.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/jquery-nice-select-1.1.0.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/elegant_font.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/OwlCarousel2-2.3.4.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/sass.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/main/webapp/anime-main/Source/bootstrap-4.4.1-dist.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

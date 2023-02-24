@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/HikariCP-3.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/aspose-words-22.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/aspose-words-20.9-jdk17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/jsoup-1.15.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/cos.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/jaxb-api-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

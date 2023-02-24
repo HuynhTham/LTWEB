@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Log.Log;
 import database.DAOAccounts;
-
+import database.DataSource;
+import database.JDBiConnector;
 import model.Account;
 import model.Encode;
 
@@ -36,28 +38,35 @@ public class login extends HttpServlet {
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
 		String ipClient =request.getRemoteAddr();
-		String path = getServletContext().getRealPath("/");
+		
+		Log log = new Log(Log.INFO, -1, ipClient, "LoginServlet", null, 0);
+	
+		String direct = "/login.jsp";
 		try {
 		
-				user = daoAccount.baseLogin(userName, encryptPass,ipClient,path);
+				user = daoAccount.baseLogin(userName, encryptPass);
 				
 				if (verify) {
 					if (user != null) {
+						log.setUserId(user.getIdUser());
 						if (user.getIsActive() == 1) {
 							session.setAttribute("user", user);
 							session.setAttribute("isAdmin", user.isAdmin());
-
 							session.removeAttribute("countError");
-							request.getRequestDispatcher("/index.jsp").forward(request, response);
+							direct="/index.jsp";
+							
+							log.setContent("Login sucess");
 						} else {
 							request.setAttribute("errorLogin",
 									"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
-							request.getRequestDispatcher("/login.jsp").forward(request, response);
+							
+							log.setContent("Account has been locked");
 						}
 					} else {
 						int idUser = daoAccount.findIdByUserName(userName);
 						int countError = 1;
 						if (idUser != -1) {
+							log.setUserId(idUser);
 							String oldUserName = (String) session.getAttribute("oldUserName");
 							request.setAttribute("errorLogin", "Sai mật khảu");
 							if (!error.equals("null")) {
@@ -68,29 +77,40 @@ public class login extends HttpServlet {
 								}
 
 							}
+							
+							log.setContent("login fail");
+							log.setLevel(Log.ALERT);
 							session.setAttribute("countError", countError);
 
 							if (countError >= 5) {
-
+								
 								daoAccount.blockAccount(idUser);
+								log.setLevel(Log.DANGER);
+								log.setContent("Lock account");
+								
 								request.setAttribute("errorLogin",
 										"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
 
 							}
-							request.getRequestDispatcher("/login.jsp").forward(request, response);
-
+							
 						} else {
+							log.setContent("login fail");
+							log.setLevel(Log.ALERT);
 							request.setAttribute("errorLogin", "Sai thông tin tài khoản");
-							request.getRequestDispatcher("/login.jsp").forward(request, response);
+						
 						}
 					}
 				} else {
+					log.setContent("error captcha");
+					log.setLevel(Log.ALERT);
 					request.setAttribute("errorLogin", "Lỗi captcha");
-					request.getRequestDispatcher("/login.jsp").forward(request, response);
+					
 				}
+				new JDBiConnector().insert(log);
+				request.getRequestDispatcher(direct).forward(request, response);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+		
 			response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png" + "\">");
 		}
 
