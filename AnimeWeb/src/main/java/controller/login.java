@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import Log.Log;
 import database.DAOAccounts;
 import database.DataSource;
+import database.JDBiConnector;
 import model.Account;
 import model.Encode;
 
@@ -37,12 +38,13 @@ public class login extends HttpServlet {
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
 		String ipClient =request.getRemoteAddr();
-		String path = getServletContext().getRealPath("/");
+		
 		Log log = new Log(Log.INFO, -1, ipClient, "LoginServlet", null, 0);
+	
 		String direct = "/login.jsp";
 		try {
 		
-				user = daoAccount.baseLogin(userName, encryptPass,ipClient,path);
+				user = daoAccount.baseLogin(userName, encryptPass);
 				
 				if (verify) {
 					if (user != null) {
@@ -104,7 +106,7 @@ public class login extends HttpServlet {
 					request.setAttribute("errorLogin", "Lỗi captcha");
 					
 				}
-				DataSource.insertLog(log);
+				new JDBiConnector().insert(log);
 				request.getRequestDispatcher(direct).forward(request, response);
 			
 		} catch (SQLException e) {

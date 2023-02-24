@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import org.jdbi.v3.core.Jdbi;
 
 import com.mysql.cj.protocol.Resultset;
 
@@ -32,7 +35,7 @@ public class DAOAccounts {
 		Connection conn = DataSource.getConnection();
 		PreparedStatement prepare = conn.prepareStatement("UPDATE animeweb.accounts SET isActive = 0 WHERE idUser=? ");
 		prepare.setInt(1, idUser);
-		return prepare.executeUpdate()==1;
+		return prepare.executeUpdate() == 1;
 	}
 
 	public int findIdByUserName(String userName) throws SQLException {
@@ -50,47 +53,33 @@ public class DAOAccounts {
 
 	}
 
-	public ArrayList<Role> getRoleUser(int idUser, String userName, String path, String ip)
-			throws SQLException, FileNotFoundException {
-		ArrayList<Role> result = new ArrayList<Role>();
+	public List<Role> getRoleUser(int idUser) throws SQLException, FileNotFoundException {
 		String query = "select a.idrole,description from animeweb.account_roles a join animeweb.roles r on a.idrole = r.idrole where a.idUser=?";
-		List<Object> params = new ArrayList<>();
-		params.add(idUser);
+		Jdbi me = JDBiConnector.me();
+		List<Role> result = me.withHandle(handle -> {
+			return handle.createQuery(query).bind(0, idUser)
+					.map((resultSet, ctx) -> new Role(resultSet.getInt("idrole"), resultSet.getString("description")))
+					.list();
+		});
 
-		try (PreparedStatement prepare = DataSource.queryDB(query,
-				params); ResultSet rs = prepare.executeQuery();) {
+		return result;
 
-			Role role;
-			while (rs.next()) {
-				role = new Role(rs.getInt("idrole"), rs.getString("description"));
-				result.add(role);
-			}
-		
-			return result;
-		}
 	}
 
-	public Account baseLogin(String userName, String passWord, String ip, String path)
-			throws SQLException, FileNotFoundException {
+	public Account baseLogin(String userName, String passWord) throws SQLException, FileNotFoundException {
 
 		Account account = null;
-		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName=? and Password =? and typeId=1";
-		List<Object> params = new ArrayList<>();
-		params.add(userName);
-		params.add(passWord);
-		try (PreparedStatement prepare = DataSource.queryDB(query,
-				params); 
-				ResultSet rs = prepare.executeQuery();) {
-			if (rs.next()) {
-				account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
-						rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"),
-						null);
-				account.setRoles(getRoleUser(account.getIdUser(), userName, path, ip));
+		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName= :UserName and Password = :Password and typeId=1";
+		Jdbi me = JDBiConnector.me();
+		account = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("UserName", userName).bind("Password", passWord)
+					.mapToBean(Account.class).findFirst().orElse(null);
 
-			}
-		
-			return account;
+		});
+		if (account != null) {
+			account.setRoles(getRoleUser(account.getIdUser()));
 		}
+		return account;
 	}
 
 	public int findIdUserGoogle(String idGoogle, String email) throws SQLException {
@@ -172,6 +161,7 @@ public class DAOAccounts {
 				prepare2.setInt(3, idUser);
 				prepare2.setString(4, email);
 				prepare2.executeUpdate();
+
 				conn.commit();
 			} else {
 
@@ -314,7 +304,8 @@ public class DAOAccounts {
 
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, FileNotFoundException {
+		System.out.println(new DAOAccounts().baseLogin("admin", new Encode().toSHA1("1234567")));
 
 	}
 }
