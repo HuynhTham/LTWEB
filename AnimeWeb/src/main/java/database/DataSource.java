@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import Log.Log;
 
 public class DataSource {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/animeweb";
@@ -37,7 +39,7 @@ public class DataSource {
 		ds = new HikariDataSource(config);
 
 	}
-
+	
 	private DataSource() {
 	}
 
@@ -49,31 +51,25 @@ public class DataSource {
 		return ds.getConnection();
 	}
 
-	public static void writeLog(String ip, String userName, String content, int type) {
-		String mess = ip + " " + userName + "  " + content;
-		switch (type) {
-		case 1: {
-			LOGGER.info(mess);
-			break;
+	public static boolean insertLog(Log log) throws SQLException {
+	
+		String query ="INSERT INTO `animeweb`.`log` (`level`, `user`, `ip`, `src`, `content`,`status`) values(?,?,?,?,?,?)";
+		List<Object> params = new ArrayList<Object>();
+		params.add(log.getLevel());
+		params.add(log.getUserId());
+		params.add(log.getIp());
+		params.add(log.getSrc());
+		params.add(log.getContent());
+		params.add(log.getStatus());
+		
+		try(PreparedStatement prepare = queryDB(query, params)){
+			int row =prepare.executeUpdate();
+			return row==1;
 		}
-		case 2: {
-			LOGGER.warn(mess);
-			break;
-		}
-		case 3: {
-			LOGGER.error(mess);
-			break;
-		}
-		case 4: {
-			LOGGER.fatal(mess);
-			break;
-		}
-		}
-
 	}
 
-	public static PreparedStatement queryDB(String query, boolean isWriteLog, String ip, String user, String content,
-			List<Object> params, int type) {
+	public static PreparedStatement queryDB(String query,
+			List<Object> params) {
 		try {
 			Connection connection = getConnection();
 			PreparedStatement prepare = connection.prepareStatement(query);
@@ -84,12 +80,11 @@ public class DataSource {
 				}
 			}
 
-			if (isWriteLog)
-				writeLog(ip, user, content, type);
+			
 			return prepare;
 
 		} catch (Exception e) {
-			writeLog(ip, user, content, 4);
+		
 	
 		
 		}

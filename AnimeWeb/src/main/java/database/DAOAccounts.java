@@ -28,11 +28,11 @@ public class DAOAccounts {
 
 	}
 
-	public void blockAccount(int idUser) throws SQLException {
+	public boolean blockAccount(int idUser) throws SQLException {
 		Connection conn = DataSource.getConnection();
 		PreparedStatement prepare = conn.prepareStatement("UPDATE animeweb.accounts SET isActive = 0 WHERE idUser=? ");
 		prepare.setInt(1, idUser);
-		prepare.execute();
+		return prepare.executeUpdate()==1;
 	}
 
 	public int findIdByUserName(String userName) throws SQLException {
@@ -57,8 +57,8 @@ public class DAOAccounts {
 		List<Object> params = new ArrayList<>();
 		params.add(idUser);
 
-		try (PreparedStatement prepare = DataSource.queryDB(query, true, ip, userName, "login getrole  ",
-				params,1); ResultSet rs = prepare.executeQuery();) {
+		try (PreparedStatement prepare = DataSource.queryDB(query,
+				params); ResultSet rs = prepare.executeQuery();) {
 
 			Role role;
 			while (rs.next()) {
@@ -78,8 +78,8 @@ public class DAOAccounts {
 		List<Object> params = new ArrayList<>();
 		params.add(userName);
 		params.add(passWord);
-		try (PreparedStatement prepare = DataSource.queryDB(query, true, ip, userName, "login action ",
-				params,1); 
+		try (PreparedStatement prepare = DataSource.queryDB(query,
+				params); 
 				ResultSet rs = prepare.executeQuery();) {
 			if (rs.next()) {
 				account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),

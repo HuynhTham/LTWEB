@@ -20,6 +20,5 @@
 	<classpathentry kind="lib" path="C:/Users/Admin/Documents/GitHub/LTWEB/AnimeWeb/src/lib/gg/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Admin/Documents/GitHub/LTWEB/AnimeWeb/src/lib/gg/httpclient-4.5.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Admin/Documents/GitHub/LTWEB/AnimeWeb/src/lib/gg/httpcore-4.4.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/Documents/GitHub/LTWEB/AnimeWeb/src/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

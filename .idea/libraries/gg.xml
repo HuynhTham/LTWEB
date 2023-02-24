@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="gg">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/httpclient-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/jar_files.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/fluent-hc-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/org.slf4j.log4j12-1.6.4.jar.zip!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/gson-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AnimeWeb/src/lib/gg/httpcore-4.4.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
