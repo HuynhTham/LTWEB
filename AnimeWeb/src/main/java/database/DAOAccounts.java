@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.result.ResultBearing;
 
 import com.mysql.cj.protocol.Resultset;
 
@@ -96,25 +98,25 @@ public class DAOAccounts {
 		}
 		return -1;
 	}
-
-	public Account loginAccountByGoogle(int idUser, int type) throws SQLException, FileNotFoundException {
-		Account account = null;
-		Connection conn = DataSource.getConnection();
-		PreparedStatement prepare = conn.prepareStatement(
-				"SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where idUser=? and typeId=?");
-		prepare.setInt(1, idUser);
-		prepare.setInt(2, type);
-		ResultSet rs = prepare.executeQuery();
-
-		if (rs.next()) {
-			account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
-					rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"),
-					getRoleUser(idUser));
-
-		}
-		return account;
-
-	}
+//
+//	public Account loginAccountByGoogle(int idUser, int type) throws SQLException, FileNotFoundException {
+//		Account account = null;
+//		Connection conn = DataSource.getConnection();
+//		PreparedStatement prepare = conn.prepareStatement(
+//				"SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where idUser=? and typeId=?");
+//		prepare.setInt(1, idUser);
+//		prepare.setInt(2, type);
+//		ResultSet rs = prepare.executeQuery();
+//
+//		if (rs.next()) {
+//			account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
+//					rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"),
+//					getRoleUser(idUser));
+//
+//		}
+//		return account;
+//
+//	}
 
 	public int findIdUserAccount(String email, int type) throws SQLException {
 		int id;
@@ -216,96 +218,53 @@ public class DAOAccounts {
 	}
 
 	// log in withfb
-	public Account checkAcountFacebook(String email, String idfb) throws SQLException {
-		Connection conn = null;
-		conn = DataSource.getConnection();
-
-		PreparedStatement ps = conn.prepareStatement(
-				"SELECT a.idUser,a.UserName,a.Password,a.Email,a.avatar,a.typeId,a.isActive,fb.idFacebook FROM animeweb.accounts a join animeweb.accounts_facebook fb \r\n"
-						+ "on a.idUser=fb.idUser where a.Email=?and fb.idFacebook=? and a.typeId=3;");
-		ps.setString(1, email);
-		ps.setString(2, idfb);
-		ResultSet rs = ps.executeQuery();
-		int idUser;
+	public Account checkAcountFacebook(String email, String idfb) throws SQLException, FileNotFoundException {
 		Account account = null;
-		while (rs.next()) {
-			idUser = rs.getInt("idUser");
-			account = new Account(idUser, rs.getString("UserName"), rs.getString("Password"), rs.getString("Email"),
-					rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"), getRoleUser(idUser));
+		String query = "SELECT a.idUser,a.UserName,a.Password,a.Email,a.avatar,a.typeId,a.isActive,fb.idFacebook FROM animeweb.accounts a join animeweb.accounts_facebook fb on a.idUser=fb.idUser where a.Email= ? and fb.idFacebook=? and a.typeId=3;";
+
+		Jdbi me = JDBiConnector.me();
+		account = me.withHandle(handle -> {
+			return handle.createQuery(query).bind(0, email).bind(1, idfb).mapToBean(Account.class).findFirst()
+					.orElse(null);
+
+		});
+		if (account != null) {
+			account.setRoles(getRoleUser(account.getIdUser()));
 		}
 		return account;
+
 	}
 
 	// add account fb if not exist on database
-
 	public void insertAcountFB(String userName, String idFB, String email) throws SQLException {
-		Account res = null;
-		Connection conn = null;
 		Encode encryption = new Encode();
+		String query1 = "INSERT INTO animeweb.accounts (UserName,Password,Email,avatar,typeId,isActive)VALUES (?,?,?,null,3,1)";
+		String query2 = "INSERT INTO animeweb.accounts_facebook (idFacebook,Username,idUser,Email)values(?,?,?,?)";
+		String query3 = "INSERT INTO animeweb.account_roles(idUser,idrole)values(?,?)";
 
-		// Dùng để lấy idUser vừa thêm vào
-		ResultSet rs = null;
+		Jdbi me = JDBiConnector.me();
 
-		PreparedStatement ps = null;
-		PreparedStatement ps2 = null;
-
-		try {
-			conn = DataSource.getConnection();
-			conn.setAutoCommit(false);// bật transaction
-			// insert vào bảng aacount
-			ps = conn.prepareStatement(
-					"INSERT INTO animeweb.accounts (UserName,Password,Email,avatar,typeId,isActive)VALUES (?,?,?,null,3,1)",
-					Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, userName);
-			ps.setString(2, encryption.toSHA1(idFB));
-			ps.setString(3, email);
-			ps.executeUpdate();
-
-			rs = ps.getGeneratedKeys();
-			int candidateId = 0;
-			if (rs.next()) {
-				candidateId = rs.getInt(1);
-				// insert vào table fb
-				ps2 = conn.prepareStatement(
-						"INSERT INTO animeweb.accounts_facebook (idFacebook,Username,idUser,Email)values(?,?,?,?)");
-				ps2.setString(1, idFB);
-				ps2.setString(2, userName);
-				ps2.setInt(3, candidateId);
-				ps2.setString(4, email);
-				ps2.executeUpdate();
-			} else {
-				conn.commit();
-
-			}
-		} catch (SQLException e) {
-			if (conn != null) {
-				try {
-					conn.rollback(); // Rollback transaction nếu có lỗi
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-			e.printStackTrace();
-		} finally {
+		me.useHandle(handle -> {
+			handle.begin();
 			try {
-				if (ps != null) {
-					ps.close();
-				}
-				if (ps2 != null) {
-					ps2.close();
-				}
-				if (conn != null) {
-					conn.setAutoCommit(true); // Tắt transaction
-				}
-			} catch (SQLException e) {
+				int userID = handle.createUpdate(query1).bind(0, userName)
+						.bind(1, encryption.toSHA1(idFB)).bind(2, email)
+						.executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
+				handle.execute(query2, idFB, userName, userID, email);
+				handle.execute(query3, userID, 1);
+
+				handle.commit();
+			} catch (Exception e) {
+				handle.rollback();
 				e.printStackTrace();
 			}
-		}
+		});
 
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, FileNotFoundException {
-		System.out.println(new DAOAccounts().baseLogin("admin", new Encode().toSHA1("1234567")));
+//		System.out.println(new DAOAccounts().checkAcountFacebook("20130115@gmail.com", "12345678"));
+		new DAOAccounts().insertAcountFB("ádsada", "1231111", "he123he@gmail.com");
 
 	}
 }
