@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.mysql.cj.Session;
 
+import Log.Log;
 import database.DAOAccounts;
+import database.JDBiConnector;
 import model.Account;
 
 /**
@@ -30,6 +32,8 @@ public class loginWithFacebook extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		String action = request.getParameter("action");
 		String name = null, email = null, id = null;
+		String ipClient = request.getRemoteAddr();
+		Log log = new Log(0, -1, ipClient, "loginWithFacebook", null, 0);
 		if (action.equals("Face")) {
 			name = request.getParameter("name");
 			email = request.getParameter("email");
@@ -41,21 +45,33 @@ public class loginWithFacebook extends HttpServlet {
 		try {
 			account = dao.checkAcountFacebook(email, id);
 			System.out.println(account);
+
 			if (account != null) {
 				session.setAttribute("user", account);
 				session.setAttribute("isAdmin", account.isAdmin());
+				log.setUserId(account.getIdUser());
+				log.setContent("Log in FB succes");
+				log.setLevel(log.INFO);
+				new JDBiConnector().insert(log);
 				request.getRequestDispatcher("/anime-main/index.jsp").forward(request, response);
-			} else {
+
+			} else if (account == null && (!name.equalsIgnoreCase("undefined"))
+					&& (!email.equalsIgnoreCase("undefined"))) {
 				dao.insertAcountFB(name, id, email);
 				account = dao.checkAcountFacebook(email, id);
 
 				session.setAttribute("user", account);
 				session.setAttribute("isAdmin", account.isAdmin());
+				log.setContent("create account by FB and Log in succes");
+				log.setLevel(log.ALERT);
+				new JDBiConnector().insert(log);
 				request.getRequestDispatcher("/anime-main/index.jsp").forward(request, response);
 
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		}
 
 	}
