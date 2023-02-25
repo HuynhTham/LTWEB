@@ -3,7 +3,9 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import Log.Log;
 import database.DAOAccounts;
+import database.JDBiConnector;
 import model.Account;
 import model.Constants;
 import model.UserGoogleDto;
@@ -73,7 +75,10 @@ public class LoginGoogleHandler extends HttpServlet {
 		String email = userGoogle.getEmail();
 		String userName = userGoogle.getName();
 		Account user = null;
+		String ipClient = request.getRemoteAddr();
 		DAOAccounts daoAccounts = new DAOAccounts();
+		Log log = new Log(Log.INFO, -1, ipClient, "Login Google", null, 0);
+
 		try {
 			System.out.println(idg);
 			System.out.println(userGoogle);
@@ -81,19 +86,26 @@ public class LoginGoogleHandler extends HttpServlet {
 			idUserGoogle = daoAccounts.findIdUserGoogle(idg, email);
 			System.out.println(idUserGoogle);
 
-			if (idUserGoogle == -1) {
+			if (idUserGoogle == 0) {
 				daoAccounts.addGoogle(idg, email, userName);
-				System.out.println("dont");
 				int idUser = daoAccounts.findIdUserAccount(email, 2);
 				user = daoAccounts.loginAccountByGoogle(idUser, 2);
+				log.setUserId(user.getIdUser());
+				log.setContent("Register and login With Google");
+				log.setLevel(Log.ALERT);
 				System.out.println(user);
 				session.setAttribute("user", user);
 				session.setAttribute("isAdmin", user.isAdmin());
+				new JDBiConnector().insert(log);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			} else {
 				user = daoAccounts.loginAccountByGoogle(idUserGoogle, 2);
+				log.setUserId(user.getIdUser());
+				log.setContent("Login with Google Success");
+				log.setLevel(Log.INFO);
 				session.setAttribute("user", user);
 				session.setAttribute("isAdmin", user.isAdmin());
+				new JDBiConnector().insert(log);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		} catch (SQLException e) {
