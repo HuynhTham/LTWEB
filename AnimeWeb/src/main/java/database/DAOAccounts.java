@@ -86,97 +86,72 @@ public class DAOAccounts {
 
 	public int findIdUserGoogle(String idGoogle, String email) throws SQLException {
 		int id;
-		Connection conn = DataSource.getConnection();
-		PreparedStatement prepare = conn
-				.prepareStatement("SELECT idUser from animeweb.accounts_google where idGoogle =? and Email=? ");
-		prepare.setString(1, idGoogle);
-		prepare.setString(2, email);
-		ResultSet rs = prepare.executeQuery();
-		if (rs.next()) {
-			id = rs.getInt("idUser");
-			return id;
-		}
-		return -1;
+		Jdbi me = JDBiConnector.me();
+		System.out.println(idGoogle);
+		System.out.println(email);
+		String query = "SELECT idUser from animeweb.accounts_google where idGoogle =:idGoogle and EMAIL=:Email";
+		id = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("idGoogle", idGoogle).bind("Email", email).mapToBean(Account.class)
+					.findFirst().orElse(new Account()).getIdUser();
+		});
+		return id;
 	}
-//
-//	public Account loginAccountByGoogle(int idUser, int type) throws SQLException, FileNotFoundException {
-//		Account account = null;
-//		Connection conn = DataSource.getConnection();
-//		PreparedStatement prepare = conn.prepareStatement(
-//				"SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where idUser=? and typeId=?");
-//		prepare.setInt(1, idUser);
-//		prepare.setInt(2, type);
-//		ResultSet rs = prepare.executeQuery();
-//
-//		if (rs.next()) {
-//			account = new Account(rs.getInt("idUser"), rs.getString("UserName"), rs.getString("Password"),
-//					rs.getString("Email"), rs.getString("avatar"), rs.getInt("typeId"), rs.getInt("isActive"),
-//					getRoleUser(idUser));
-//
-//		}
-//		return account;
-//
-//	}
+
+	public Account loginAccountByGoogle(int idUser, int type) throws SQLException, FileNotFoundException {
+		Account account = null;
+
+		Jdbi me = JDBiConnector.me();
+		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where idUser=:idUser and typeId=:typeId";
+		account = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("idUser", idUser).bind("typeId", type).mapToBean(Account.class)
+					.findFirst().orElse(null);
+		});
+		if (account != null) {
+			account.setRoles(getRoleUser(idUser));
+		}
+		return account;
+	}
 
 	public int findIdUserAccount(String email, int type) throws SQLException {
 		int id;
-		Connection conn = DataSource.getConnection();
-		PreparedStatement prepare = conn
-				.prepareStatement("SELECT idUser from animeweb.accounts where  Email=? and typeId =?");
-		prepare.setString(1, email);
-		prepare.setInt(2, type);
-		ResultSet rs = prepare.executeQuery();
-		if (rs.next()) {
-			id = rs.getInt("idUser");
-			return id;
-		}
-		return -1;
+
+		Jdbi me = JDBiConnector.me();
+		String query = "SELECT idUser from animeweb.accounts where  Email=:Email and typeId =:typeId";
+		id = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("Email", email).bind("typeId", type).mapToBean(Account.class)
+					.findFirst().orElse(new Account()).getIdUser();
+		});
+		return id;
 	}
 
 	public void addGoogle(String idGoogle, String email, String userName) throws SQLException {
-		Connection conn = null;
 
+		System.out.println("ad");
 		Encode encrypt = new Encode();
+		String pass = encrypt.toSHA1(idGoogle);
 		ResultSet rs = null;
-		try {
-			conn = DataSource.getConnection();
-			conn.setAutoCommit(false);
-			PreparedStatement prepare = conn.prepareStatement(
-					"INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (?,?,?,null,2,1) ",
-					Statement.RETURN_GENERATED_KEYS);
-			prepare.setString(1, userName);
-			prepare.setString(2, encrypt.toSHA1(userName));
-			prepare.setString(3, email);
-			int num = prepare.executeUpdate();
-			rs = prepare.getGeneratedKeys();
-
-			int idUser = 0;
-			if (rs.next()) {
-				idUser = rs.getInt(1);
-				System.out.println(idUser);
-			}
-			if (num == 1) {
-				PreparedStatement prepare2 = conn.prepareStatement(
-						"INSERT INTO  accounts_google (idGoogle, Username,idUser,Email) VALUES (?,?,?,?) ");
-				prepare2.setString(1, idGoogle);
-				prepare2.setString(2, userName);
-				prepare2.setInt(3, idUser);
-				prepare2.setString(4, email);
-				prepare2.executeUpdate();
-
-				conn.commit();
-			} else {
-
-				conn.rollback();
-			}
-		} catch (Exception e) {
+		Jdbi me = JDBiConnector.me();
+		me.useHandle(handle -> {
+			handle.begin();
 			try {
-				if (conn != null)
-					conn.rollback();
-			} catch (SQLException e1) {
-				System.out.println(e.getMessage());
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,null,2,1) ";
+				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", pass)
+						.bind("Email", email).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
+						.orElse(-1);
+				String query2 = "INSERT INTO  accounts_google (idGoogle, Username,idUser,Email) VALUES (:idGoogle,:Username,:idUser,:Email) ";
+				handle.createUpdate(query2).bind("idGoogle", idGoogle).bind("Username", userName).bind("idUser", idUser)
+						.bind("Email", email).execute();
+				String query3 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";
+				handle.createUpdate(query3).bind("idUser", idUser).bind("idrole", Role.base_User).execute();
+				System.out.println("dont");
+				handle.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				handle.rollback();
+
 			}
-		}
+		});
+
 	}
 
 	public void changeProfile(String userName, String passWord, String email, String img)
@@ -247,9 +222,8 @@ public class DAOAccounts {
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
-				int userID = handle.createUpdate(query1).bind(0, userName)
-						.bind(1, encryption.toSHA1(idFB)).bind(2, email)
-						.executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
+				int userID = handle.createUpdate(query1).bind(0, userName).bind(1, encryption.toSHA1(idFB))
+						.bind(2, email).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
 				handle.execute(query2, idFB, userName, userID, email);
 				handle.execute(query3, userID, 1);
 
