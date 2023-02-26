@@ -38,7 +38,7 @@ public class login extends HttpServlet {
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
 		String ipClient =request.getRemoteAddr();
-		System.out.println(encryptPass +"concac");
+	
 		Log log = new Log(Log.INFO, -1, ipClient, "LoginServlet", null, 0);
 	
 		String direct = "/login.jsp";
@@ -117,47 +117,6 @@ public class login extends HttpServlet {
 		}
 
 
-//		if ("signup".equals(query)) {
-//			String email = request.getParameter("email");
-//			// validation
-//			boolean error = false;
-//			if (userName.length() > 25 || userName.length() < 6 || passWord.length() < 6 || passWord.length() > 100) {
-//				error = true;
-//			}
-//
-//			if (error == false) {
-//				Register register = new Register();
-//				try {
-//					boolean check = listAccount.checkRegister(userName);
-//					if (check) {
-//						session.setAttribute("errorSignup", "");
-//						session.setAttribute("mailOld", "");
-//						session.setAttribute("nameOld", "");
-//						session.setAttribute("passOld", "");
-//						register.createAccount(userName, pass, email);
-//						getServletContext().setAttribute("listUser", new ListAccount(new DAOAccounts().getConnection()));
-//						url = getServletContext().getContextPath() + "/anime-main/index.jsp";
-//					} else {
-//						session.setAttribute("errorSignup", "Tên tài khoản đã tồn tại");
-//						session.setAttribute("mailOld", email);
-//						session.setAttribute("nameOld", userName);
-//						session.setAttribute("passOld", passWord);
-//						url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
-//					}
-//
-//				} catch (ClassNotFoundException | SQLException e) {
-//
-//					response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
-//				}
-//			} else {
-//				session.setAttribute("errorSignup", "Đăng ký không thành công do lỗi dữ liệu");
-//				session.setAttribute("mailOld", email);
-//				session.setAttribute("nameOld", userName);
-//				session.setAttribute("passOld", passWord);
-//				url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
-//			}
-//
-//		}
 
 	}
 

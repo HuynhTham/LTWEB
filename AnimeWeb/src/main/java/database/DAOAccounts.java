@@ -143,7 +143,7 @@ public class DAOAccounts {
 		Encode encrypt = new Encode();
 		String encryptPassword = encrypt.toSHA1(password);
 		Jdbi me = JDBiConnector.me();
-		System.out.println(encryptPassword +"concac ne");
+	
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
