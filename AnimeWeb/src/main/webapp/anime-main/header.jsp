@@ -80,7 +80,7 @@
 													<fmt:message>header.account</fmt:message>
 												</button></a></li>
 										<li><a href="follow?type=listFollow"><fmt:message>header.follow</fmt:message></a>
-										<li><a href="login.jsp"><button
+										<li><a href="logOut"><button
 													class="fas fa-sign-out-alt"></button></a></li>
 
 									</ul>
@@ -99,7 +99,7 @@
 										<li><a href="follow?type=listFollow"><fmt:message>header.follow</fmt:message></a>
 											<c:url var="adm" value="../admin/featureAdmin" />
 										<li><a href="${adm}"><button class="fa fa-cog"></button></a></li>
-										<li><a href="login.jsp"><button
+										<li><a href="logOut"><button
 													class="fas fa-sign-out-alt"></button></a></li>
 
 									</ul>

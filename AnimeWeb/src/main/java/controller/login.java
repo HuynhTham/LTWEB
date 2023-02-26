@@ -38,15 +38,15 @@ public class login extends HttpServlet {
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
 		String ipClient =request.getRemoteAddr();
-		
+		System.out.println(encryptPass +"concac");
 		Log log = new Log(Log.INFO, -1, ipClient, "LoginServlet", null, 0);
 	
 		String direct = "/login.jsp";
 		try {
 		
-				user = daoAccount.baseLogin(userName, encryptPass);
-				
-				if (verify) {
+					if (verify) {
+						user = daoAccount.baseLogin(userName, encryptPass);
+						
 					if (user != null) {
 						log.setUserId(user.getIdUser());
 						if (user.getIsActive() == 1) {
@@ -56,11 +56,13 @@ public class login extends HttpServlet {
 							direct="/index.jsp";
 							
 							log.setContent("Login sucess");
+						
 						} else {
 							request.setAttribute("errorLogin",
 									"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
 							
 							log.setContent("Account has been locked");
+							
 						}
 					} else {
 						int idUser = daoAccount.findIdByUserName(userName);
@@ -90,14 +92,14 @@ public class login extends HttpServlet {
 								
 								request.setAttribute("errorLogin",
 										"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
-
+								
 							}
 							
 						} else {
 							log.setContent("login fail");
 							log.setLevel(Log.ALERT);
 							request.setAttribute("errorLogin", "Sai thông tin tài khoản");
-						
+							
 						}
 					}
 				} else {
@@ -106,7 +108,7 @@ public class login extends HttpServlet {
 					request.setAttribute("errorLogin", "Lỗi captcha");
 					
 				}
-				new JDBiConnector().insert(log);
+					new JDBiConnector().insert(log);
 				request.getRequestDispatcher(direct).forward(request, response);
 			
 		} catch (SQLException e) {
