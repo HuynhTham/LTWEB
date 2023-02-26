@@ -31,6 +31,8 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/ds/style.css" />
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=vi"></script>
+
 </head>
 
 <body>
@@ -39,7 +41,7 @@
 
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-<fmt:setLocale value="${sessionScope.LANG}" />
+	<fmt:setLocale value="${sessionScope.LANG}" />
 	<fmt:setBundle basename="anime.web.resources.app" />
 
 
@@ -81,20 +83,34 @@
 						<h3>
 							<fmt:message>menu.signup</fmt:message>
 						</h3>
-						<form action="login">
+						<form action="Register" method="post">
 							<div class="input__item">
-								<input required="required" type="email" placeholder="Email address" name="email"
-									value="${mailOld}"> <span class="icon_mail"></span>
+								<input required="required" type="email"
+									placeholder="Email address" name="email" value="${mailOld}"
+									id="mailValue"> <span class="icon_mail"></span>
 							</div>
 							<div class="input__item">
-								<input required="required" type="text" placeholder="loginName" name="loginName"
-									value="${nameOld}"> <span class="icon_profile"></span>
+								<input required="required" type="text" placeholder="loginName"
+									name="userName" value="${nameOld}"> <span
+									class="icon_profile"></span>
 							</div>
 							<div class="input__item">
-								<input required="required" type="password" placeholder="Password" name="loginPassword"
-									value="${passOld}"> <span class="icon_lock"></span>
+								<input required="required" type="password"
+									placeholder="Password" name="password" value="${passOld}">
+								<span class="icon_lock"></span>
 							</div>
+							<div class="g-recaptcha"
+								data-sitekey="6Lf2nYwkAAAAADknQvj1Os2Ht92MMORFX3RhbQDo"></div>
+							<div class="input__item">
+								<input required="required" type="text"
+									placeholder="Mã xác nhận" name="emailCode">
+								<button id="SendMailButton" onclick="afterSendmail(this)"
+									disabled>Send mail</button>
+							</div>
+							<div id="logInfoEmail"></div>
 							<div style="color: red">${errorSignup}</div>
+
+
 							<button type="submit" class="site-btn" value="signup"
 								name="accountBtn">
 								<fmt:message>button.signup</fmt:message>
@@ -123,7 +139,8 @@
 				<i class="icon_close"></i>
 			</div>
 			<form class="search-model-form">
-				<input required="required" type="text" id="search-input" placeholder="Search here.....">
+				<input required="required" type="text" id="search-input"
+					placeholder="Search here.....">
 			</form>
 		</div>
 	</div>
@@ -138,7 +155,58 @@
 	<script src="js/jquery.slicknav.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		function validateEmail(email) {
+			var re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+			return re.test(String(email).toLowerCase());
+		}
+		var emailInput = document.getElementById('mailValue');
+		emailInput.addEventListener('input', function() {
+			var isValidEmail = validateEmail(emailInput.value);
+			if (isValidEmail) {
+				document.getElementById('SendMailButton').removeAttribute(
+						'disabled');
+			} else {
+				document.getElementById('SendMailButton').setAttribute(
+						'disabled', 'disabled');
+			}
+		});
+		function sendMail() {
+			var linkMail = document.getElementById("mailValue").value;
 
+			$.ajax({
+				url : "ValidateRegister",
+				type : "get",
+				data : {
+					email: linkMail,
+				},
+				success : function(data) {
+					$("#logInfoEmail").html(data);
+					
+				},
+				error : function(data) {
+					console.log("NDB")
+				}
+			});
+		}
+		function afterSendmail(e) {
+			var timeLeft = 30;
+			e.disabled = true;
+			sendMail();
+			var timerId = setInterval(countdown, 1000);
+			function countdown() {
+				if (timeLeft == -1) {
+					clearTimeout(timerId);
+					e.disabled = false;
+					e.textContent = "Send mail";
+				} else {
+					e.textContent = timeLeft + " s";
+					timeLeft--;
+				}
+			}
+
+		}
+	</script>
 </body>
 
 </html>

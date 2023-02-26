@@ -55,6 +55,21 @@ public class DAOAccounts {
 
 	}
 
+
+
+	public Account findUserByUserNameandEmail(String userName, String Email) {
+		Jdbi me = JDBiConnector.me();
+		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName= :UserName and Email= :Email and typeId=1";
+
+		Account account;
+		account = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("UserName", userName).bind("Email", Email).mapToBean(Account.class)
+					.findFirst().orElse(null);
+
+		});
+		return account;
+	}
+
 	public List<Role> getRoleUser(int idUser) throws SQLException, FileNotFoundException {
 		String query = "select a.idrole,description from animeweb.account_roles a join animeweb.roles r on a.idrole = r.idrole where a.idUser=?";
 		Jdbi me = JDBiConnector.me();
@@ -124,12 +139,38 @@ public class DAOAccounts {
 		return id;
 	}
 
+	public void addBaseUser(String userName, String password, String email) {
+		Encode encrypt = new Encode();
+		String encryptPassword = encrypt.toSHA1(password);
+		Jdbi me = JDBiConnector.me();
+	
+		me.useHandle(handle -> {
+			handle.begin();
+			try {
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,null,1,1) ";
+				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", encryptPassword)
+						.bind("Email", email).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
+						.orElse(-1);
+
+				String query1 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";
+				handle.createUpdate(query1).bind("idUser", idUser).bind("idrole", Role.base_User).execute();
+				handle.commit();
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+				handle.rollback();
+			
+
+			}
+		});
+		
+	}
+
 	public void addGoogle(String idGoogle, String email, String userName) throws SQLException {
 
-		System.out.println("ad");
 		Encode encrypt = new Encode();
 		String pass = encrypt.toSHA1(idGoogle);
-		ResultSet rs = null;
+
 		Jdbi me = JDBiConnector.me();
 		me.useHandle(handle -> {
 			handle.begin();
@@ -143,7 +184,7 @@ public class DAOAccounts {
 						.bind("Email", email).execute();
 				String query3 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";
 				handle.createUpdate(query3).bind("idUser", idUser).bind("idrole", Role.base_User).execute();
-				System.out.println("dont");
+
 				handle.commit();
 			} catch (Exception e) {
 				e.printStackTrace();

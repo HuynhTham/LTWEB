@@ -1,6 +1,7 @@
 package model;
 
 import java.security.MessageDigest;
+import java.util.Random;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -21,6 +22,12 @@ public class Encode {
 		e.printStackTrace();
 	}
 	return result;
+ }
+ public static String generateNumber() {
+	 Random random = new Random();
+     int randomNumber = random.nextInt(100000000); 
+     String formattedRandomNumber = String.format("%08d", randomNumber);
+     return formattedRandomNumber;
  }
  public static void main(String[] args) {
 

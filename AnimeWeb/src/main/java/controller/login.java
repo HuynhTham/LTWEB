@@ -38,15 +38,15 @@ public class login extends HttpServlet {
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
 		DAOAccounts daoAccount = new DAOAccounts();
 		String ipClient =request.getRemoteAddr();
-		
+	
 		Log log = new Log(Log.INFO, -1, ipClient, "LoginServlet", null, 0);
 	
 		String direct = "/login.jsp";
 		try {
 		
-				user = daoAccount.baseLogin(userName, encryptPass);
-				
-				if (verify) {
+					if (verify) {
+						user = daoAccount.baseLogin(userName, encryptPass);
+						
 					if (user != null) {
 						log.setUserId(user.getIdUser());
 						if (user.getIsActive() == 1) {
@@ -56,11 +56,13 @@ public class login extends HttpServlet {
 							direct="/index.jsp";
 							
 							log.setContent("Login sucess");
+						
 						} else {
 							request.setAttribute("errorLogin",
 									"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
 							
 							log.setContent("Account has been locked");
+							
 						}
 					} else {
 						int idUser = daoAccount.findIdByUserName(userName);
@@ -90,14 +92,14 @@ public class login extends HttpServlet {
 								
 								request.setAttribute("errorLogin",
 										"Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần, vui lòng liên hệ quản trị viên để mở khóa");
-
+								
 							}
 							
 						} else {
 							log.setContent("login fail");
 							log.setLevel(Log.ALERT);
 							request.setAttribute("errorLogin", "Sai thông tin tài khoản");
-						
+							
 						}
 					}
 				} else {
@@ -106,7 +108,7 @@ public class login extends HttpServlet {
 					request.setAttribute("errorLogin", "Lỗi captcha");
 					
 				}
-				new JDBiConnector().insert(log);
+					new JDBiConnector().insert(log);
 				request.getRequestDispatcher(direct).forward(request, response);
 			
 		} catch (SQLException e) {
@@ -115,47 +117,6 @@ public class login extends HttpServlet {
 		}
 
 
-//		if ("signup".equals(query)) {
-//			String email = request.getParameter("email");
-//			// validation
-//			boolean error = false;
-//			if (userName.length() > 25 || userName.length() < 6 || passWord.length() < 6 || passWord.length() > 100) {
-//				error = true;
-//			}
-//
-//			if (error == false) {
-//				Register register = new Register();
-//				try {
-//					boolean check = listAccount.checkRegister(userName);
-//					if (check) {
-//						session.setAttribute("errorSignup", "");
-//						session.setAttribute("mailOld", "");
-//						session.setAttribute("nameOld", "");
-//						session.setAttribute("passOld", "");
-//						register.createAccount(userName, pass, email);
-//						getServletContext().setAttribute("listUser", new ListAccount(new DAOAccounts().getConnection()));
-//						url = getServletContext().getContextPath() + "/anime-main/index.jsp";
-//					} else {
-//						session.setAttribute("errorSignup", "Tên tài khoản đã tồn tại");
-//						session.setAttribute("mailOld", email);
-//						session.setAttribute("nameOld", userName);
-//						session.setAttribute("passOld", passWord);
-//						url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
-//					}
-//
-//				} catch (ClassNotFoundException | SQLException e) {
-//
-//					response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
-//				}
-//			} else {
-//				session.setAttribute("errorSignup", "Đăng ký không thành công do lỗi dữ liệu");
-//				session.setAttribute("mailOld", email);
-//				session.setAttribute("nameOld", userName);
-//				session.setAttribute("passOld", passWord);
-//				url = getServletContext().getContextPath() + "/anime-main/signup.jsp" + sessionId;
-//			}
-//
-//		}
 
 	}
 
