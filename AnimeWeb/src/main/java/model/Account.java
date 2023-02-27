@@ -17,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import database.Rate;
+import database.movie;
 
 public class Account {
 	private int idUser;
@@ -27,8 +28,10 @@ public class Account {
 	private int typeId;
 	private int isActive;
 	private List<Role> roles;
-	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
-			int isActive, ArrayList<Role> roles) {
+	private List<Movie> moviesFollow;
+
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId, int isActive,
+			ArrayList<Role> roles, ArrayList<Movie> moviesFollow) {
 		super();
 		this.idUser = idUser;
 		this.userName = userName;
@@ -38,11 +41,13 @@ public class Account {
 		this.typeId = typeId;
 		this.isActive = isActive;
 		this.roles = roles;
+		this.moviesFollow = moviesFollow;
 	}
+
 	public Account() {
-		
+
 	}
-	
+
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
 			int isActive) {
 		super();
@@ -54,7 +59,6 @@ public class Account {
 		this.typeId = typeId;
 		this.isActive = isActive;
 	}
-
 
 	public int getIdUser() {
 		return idUser;
@@ -119,13 +123,22 @@ public class Account {
 	public void setRoles(List<Role> listRole) {
 		this.roles = listRole;
 	}
+
 	public int isAdmin() {
-		for(Role role : roles) {
-			if(role.getIdRole()==4) {
+		for (Role role : roles) {
+			if (role.getIdRole() == 4) {
 				return 1;
 			}
 		}
 		return 0;
+	}
+
+	public List<Movie> getMoviesFollow() {
+		return moviesFollow;
+	}
+
+	public void setMoviesFollow(List<Movie> moviesFollow) {
+		this.moviesFollow = moviesFollow;
 	}
 
 	@Override
@@ -136,11 +149,11 @@ public class Account {
 
 	public int getmyRate(int idMovie) throws ClassNotFoundException, SQLException {
 		Rate rate = new Rate();
-		int rs=rate.getRate(userName, idMovie);
+		int rs = rate.getRate(userName, idMovie);
 		return rs;
 	}
 
-	  public static void main(String[] args) throws MessagingException, UnsupportedEncodingException {
+	public static void main(String[] args) throws MessagingException, UnsupportedEncodingException {
 //	        final String fromEmail = "20130305@st.hcmuaf.edu.vn";
 //	        // Mat khai email cua ban
 //	        final String password = "Linh@27092002";
@@ -194,8 +207,6 @@ public class Account {
 //			} catch (MessagingException e) {
 //			e.printStackTrace();
 //			}
-		  Date date = new Date();
-		  System.out.println(date);
-	  }
+	
+	}
 }
-

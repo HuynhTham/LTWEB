@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 
 import java.sql.SQLException;
 
-import model.Comment;
+import model.CommentMovie;
 
 public class comment {
 	public comment() {
 		
 	}
-	public boolean addComment(Comment comment) throws ClassNotFoundException, SQLException {
+	public boolean addComment(CommentMovie comment) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 
 		conn = DataSource.getConnection();

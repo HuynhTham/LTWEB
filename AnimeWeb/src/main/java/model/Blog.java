@@ -1,98 +1,106 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import controller.commentBlog;
 
 public class Blog {
-	private int idBlog;
+	private int id;
 	private String title;
-	private ArrayList<blogComment> listCmt;
 	private String folder;
-	private String datePost;
+	private Date datePost;
 	private String avt;
-	private String dayDebut;
-
-	public Blog(int idBlog, String title, ArrayList<blogComment> listCmt, String folder, String datePost, String avt,
-			String dayDebut) {
+	private Date dayDebut;
+	private List<commentBlog> listComment;
+	
+	
+	
+	
+	
+	public Blog(int id, String title, String folder, Date datePost, String avt, Date dayDebut,
+			List<commentBlog> listComment) {
 		super();
-		this.idBlog = idBlog;
+		this.id = id;
 		this.title = title;
-		this.listCmt = listCmt;
 		this.folder = folder;
 		this.datePost = datePost;
 		this.avt = avt;
 		this.dayDebut = dayDebut;
-
+		this.listComment = listComment;
 	}
 
-	public String getDayDebut() {
-		return dayDebut;
-	}
 
-	public void setDayDebut(String dayDebut) {
+	public Blog(int id, String title, String avt, Date dayDebut) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.avt = avt;
 		this.dayDebut = dayDebut;
 	}
 
-	public String getAvt() {
-		return avt;
-	}
 
-	public void setAvt(String avt) {
-		this.avt = avt;
+	public Blog() {
+		super();
 	}
-
-	public int getIdBlog() {
-		return idBlog;
+	
+	
+	public int getId() {
+		return id;
 	}
-
-	public void setIdBlog(int idBlog) {
-		this.idBlog = idBlog;
+	public void setId(int id) {
+		this.id = id;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public ArrayList<blogComment> getListCmt() {
-		return listCmt;
-	}
-
-	public void setListCmt(ArrayList<blogComment> listCmt) {
-		this.listCmt = listCmt;
-	}
-
 	public String getFolder() {
 		return folder;
 	}
-
 	public void setFolder(String folder) {
 		this.folder = folder;
 	}
-
-	public String getDatePost() {
+	public Date getDatePost() {
 		return datePost;
 	}
-
-	public void setDatePost(String datePost) {
+	public void setDatePost(Date datePost) {
 		this.datePost = datePost;
 	}
-	public int getTotalComment() {
-		int rs=listCmt.size();
-		for(blogComment bc : listCmt) {
-			rs+=bc.getList().size();
-		}
-		
-		return rs;
+	public String getAvt() {
+		return avt;
 	}
-	@Override
-	public String toString() {
-		return "Blog [idBlog=" + idBlog + ", title=" + title + ", listCmt=" + listCmt + ", folder=" + folder
-				+ ", datePost=" + datePost + ", avt=" + avt + ", dayDebut=" + dayDebut + "]";
+	public void setAvt(String avt) {
+		this.avt = avt;
 	}
+	public Date getDayDebut() {
+		return dayDebut;
+	}
+	public void setDayDebut(Date dayDebut) {
+		this.dayDebut = dayDebut;
+	}
+	public List<commentBlog> getListComment() {
+		return listComment;
+	}
+	public void setListComment(List<commentBlog> listComment) {
+		this.listComment = listComment;
+	}
+	
+
+	
+
+	
+//	public int getTotalComment() {
+//		int rs=listCmt.size();
+//		for(CommentBlog bc : listCmt) {
+//			rs+=bc.getList().size();
+//		}
+//		
+//		return rs;
+//	}
+	
 	
 
 	

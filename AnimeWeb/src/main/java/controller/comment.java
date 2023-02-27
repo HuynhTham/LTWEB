@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import database.movie;
 import model.Account;
-import model.Comment;
+import model.CommentMovie;
 import model.ListMovie;
 import model.Movie;
 
@@ -45,7 +45,7 @@ public class comment extends HttpServlet {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			Date date = new Date();
 			String fm = format.format(date);
-			Comment cm = new Comment(userName, mess, idMovie, fm);
+			CommentMovie cm = new CommentMovie(userName, mess, idMovie, fm);
 			database.comment cmt = new database.comment();
 			try {
 				cmt.addComment(cm);

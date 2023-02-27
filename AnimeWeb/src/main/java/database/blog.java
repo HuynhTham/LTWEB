@@ -17,16 +17,16 @@ import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 
 import model.Blog;
-import model.blogComment;
-import model.replyComment;
+import model.CommentBlog;
+import model.CommentReplyBlog;
 
 public class blog {
 	public blog() {
 
 	}
 
-	public ArrayList<replyComment> getlistReplyCmt(int idBlog, int idCmt) throws ClassNotFoundException, SQLException {
-		ArrayList<replyComment> list = new ArrayList<>();
+	public ArrayList<CommentReplyBlog> getlistReplyCmt(int idBlog, int idCmt) throws ClassNotFoundException, SQLException {
+		ArrayList<CommentReplyBlog> list = new ArrayList<>();
 		Connection conn = null;
 
 		conn = DataSource.getConnection();
@@ -35,9 +35,9 @@ public class blog {
 		ps.setInt(1, idBlog);
 		ps.setInt(2, idCmt);
 		ResultSet rs = ps.executeQuery();
-		replyComment replyCmt;
+		CommentReplyBlog replyCmt;
 		while (rs.next()) {
-			replyCmt = new replyComment(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+			replyCmt = new CommentReplyBlog(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
 					rs.getString(6), rs.getInt(7));
 			list.add(replyCmt);
 		}
@@ -45,8 +45,8 @@ public class blog {
 		return list;
 	}
 
-	public ArrayList<blogComment> getBlogComment(int idBlog) throws ClassNotFoundException, SQLException {
-		ArrayList<blogComment> list = new ArrayList<>();
+	public ArrayList<CommentBlog> getBlogComment(int idBlog) throws ClassNotFoundException, SQLException {
+		ArrayList<CommentBlog> list = new ArrayList<>();
 		Connection conn = null;
 
 		conn = DataSource.getConnection();
@@ -54,13 +54,13 @@ public class blog {
 		PreparedStatement ps = conn.prepareStatement("select * from blogComment where idBlog=?");
 		ps.setInt(1, idBlog);
 		ResultSet rs = ps.executeQuery();
-		blogComment blogcmt;
-		ArrayList<replyComment> listReplyCmt;
+		CommentBlog blogcmt;
+		ArrayList<CommentReplyBlog> listReplyCmt;
 		while (rs.next()) {
 			int idblog = rs.getInt(1);
 			int idcmt = rs.getInt(2);
 			listReplyCmt = getlistReplyCmt(idblog, idcmt);
-			blogcmt = new blogComment(idblog, idcmt, rs.getString(3), rs.getString(4), rs.getString(5), listReplyCmt);
+			blogcmt = new CommentBlog(idblog, idcmt, rs.getString(3), rs.getString(4), rs.getString(5), listReplyCmt);
 			list.add(blogcmt);
 		}
 		
@@ -77,7 +77,7 @@ public class blog {
 		ResultSet rs = ps.executeQuery();
 		Blog blog;
 		int blogid;
-		ArrayList<blogComment> listcmt;
+		ArrayList<CommentBlog> listcmt;
 		while (rs.next()) {
 			blogid = rs.getInt(1);
 			listcmt = getBlogComment(blogid);
