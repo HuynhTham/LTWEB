@@ -2,38 +2,82 @@ package model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.Date;
+import java.util.List;
 
 import database.Rate;
-
 
 public class Movie {
 	private int idMovie;
 	private String nameMovie;
-	private String genre;
+	private List<Genre> genre;
 	private int currentEpisode;
-	private int totalEpisodes;
-	private int view;
-	private String avatar;
-	private ArrayList<Comment> listComment;
-	private ArrayList<chapter> listchapter;
-	private String description;
-	public Movie(int idMovie, String nameMovie, String genre, int currentEpisode, int totalEpisodes, int view,
-			String avatar, ArrayList<Comment> listComment, ArrayList<chapter> listchapter,String description) {
+	private int totalEpisode;
+	private int views;
+	private List<AvartarMovie> avatars;
+	private List<CommentMovie> listComment;
+	private List<ChapterMovie> listchapter;
+	private String DescriptionVN;
+	private String DescriptionEN;
+	private int isActive;
+	private List<RateMovie> listRate;
+	private Date dayadd;
+	private List<Producer> listProducer;
+
+	public Movie(int idMovie, String nameMovie, int currentEpisode) {
+		super();
+		this.idMovie = idMovie;
+		this.nameMovie = nameMovie;
+		this.currentEpisode = currentEpisode;
+	}
+
+	public Movie(int idMovie, String nameMovie, List<Genre> genre, int currentEpisode, int totalEpisode, int views,
+			List<AvartarMovie> avatars, List<CommentMovie> listComment, String descriptionVN, String descriptionEN,
+			int isActive, List<RateMovie> listRate, Date dayadd, List<Producer> listProducer) {
 		super();
 		this.idMovie = idMovie;
 		this.nameMovie = nameMovie;
 		this.genre = genre;
 		this.currentEpisode = currentEpisode;
-		this.totalEpisodes = totalEpisodes;
-		this.view = view;
-		this.avatar = avatar;
+		this.totalEpisode = totalEpisode;
+		this.views = views;
+		this.avatars = avatars;
 		this.listComment = listComment;
-		this.listchapter = listchapter;
-		this.description = description;
+		DescriptionVN = descriptionVN;
+		DescriptionEN = descriptionEN;
+		this.isActive = isActive;
+		this.listRate = listRate;
+		this.dayadd = dayadd;
+		this.listProducer = listProducer;
 	}
+
+	public Movie(int idMovie, String nameMovie, List<Genre> genre, int views, List<AvartarMovie> avatars, int isActive,
+			List<RateMovie> listRate) {
+		super();
+		this.idMovie = idMovie;
+		this.nameMovie = nameMovie;
+		this.genre = genre;
+		this.views = views;
+		this.avatars = avatars;
+		this.isActive = isActive;
+		this.listRate = listRate;
+	}
+
+	public Movie(int idMovie, String nameMovie, int currentEpisode, int totalEpisode, String descriptionVN,
+			String descriptionEN, Date dayadd, int isActive) {
+		super();
+		this.idMovie = idMovie;
+		this.nameMovie = nameMovie;
+		this.currentEpisode = currentEpisode;
+		this.totalEpisode = totalEpisode;
+		DescriptionVN = descriptionVN;
+		DescriptionEN = descriptionEN;
+		this.isActive = isActive;
+		this.dayadd = dayadd;
+	}
+
 	public Movie() {
-		
+
 	}
 
 	public int getIdMovie() {
@@ -52,11 +96,11 @@ public class Movie {
 		this.nameMovie = nameMovie;
 	}
 
-	public String getGenre() {
+	public List<Genre> getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(List<Genre> genre) {
 		this.genre = genre;
 	}
 
@@ -68,81 +112,113 @@ public class Movie {
 		this.currentEpisode = currentEpisode;
 	}
 
-	public int getTotalEpisodes() {
-		return totalEpisodes;
+	public int getTotalEpisode() {
+		return totalEpisode;
 	}
 
-	public void setTotalEpisodes(int totalEpisodes) {
-		this.totalEpisodes = totalEpisodes;
+	public void setTotalEpisode(int totalEpisode) {
+		this.totalEpisode = totalEpisode;
 	}
 
-	public int getView() {
-		return view;
+	public int getViews() {
+		return views;
 	}
 
-	public void setView(int view) {
-		this.view = view;
+	public void setViews(int views) {
+		this.views = views;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public List<AvartarMovie> getAvatars() {
+		return avatars;
 	}
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
+	public void setAvatars(List<AvartarMovie> avatars) {
+		this.avatars = avatars;
 	}
 
-	public ArrayList<Comment> getListComment() {
+	public List<CommentMovie> getListComment() {
 		return listComment;
 	}
 
-	public void setListComment(ArrayList<Comment> listComment) {
+	public void setListComment(List<CommentMovie> listComment) {
 		this.listComment = listComment;
 	}
 
-	public ArrayList<chapter> getListchapter() {
+	public List<ChapterMovie> getListchapter() {
 		return listchapter;
 	}
 
-	public void setListchapter(ArrayList<chapter> listchapter) {
+	public void setListchapter(List<ChapterMovie> listchapter) {
 		this.listchapter = listchapter;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDescriptionVN() {
+		return DescriptionVN;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescriptionVN(String descriptionVN) {
+		DescriptionVN = descriptionVN;
 	}
 
-	@Override
-	public String toString() {
-		return "Movie [idMovie=" + idMovie + ", nameMovie=" + nameMovie + ", genre=" + genre + ", currentEpisode="
-				+ currentEpisode + ", totalEpisodes=" + totalEpisodes + ", view=" + view + ", avatar=" + avatar
-				+ ", listComment=" + listComment + ", listchapter=" + listchapter + ", description=" + description
-				+ "]";
-	}
-	public double getAvgScore() throws ClassNotFoundException, SQLException {
-		Rate DBAO = new Rate();
-		ArrayList<Integer> listRate=DBAO.getListRate(idMovie);
-		model.Rate rate = new model.Rate(listRate);
-		double avgScore =rate.averageScore();
-		
-		return (double) Math.ceil(avgScore * 10) / 10; 
-	}
-	public int voteTotal() throws ClassNotFoundException, SQLException {
-		Rate DBAO = new Rate();
-		ArrayList<Integer> listRate=DBAO.getListRate(idMovie);
-		return listRate.size();
-	}
-public int getPerCent(double total) throws ClassNotFoundException, SQLException {
-		
-		return (int) ((view/total)*100);
-		
+	public String getDescriptionEN() {
+		return DescriptionEN;
 	}
 
+	public void setDescriptionEN(String descriptionEN) {
+		DescriptionEN = descriptionEN;
+	}
 
+	public int getIsActive() {
+		return isActive;
+	}
 
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
+
+	public List<RateMovie> getListRate() {
+		return listRate;
+	}
+
+	public void setListRate(List<RateMovie> listRate) {
+		this.listRate = listRate;
+	}
+
+	public Date getDayadd() {
+		return dayadd;
+	}
+
+	public void setDayadd(Date dayadd) {
+		this.dayadd = dayadd;
+	}
+
+	public List<Producer> getListProducer() {
+		return listProducer;
+	}
+
+	public void setListProducer(List<Producer> listProducer) {
+		this.listProducer = listProducer;
+	}
+
+//	public double getAvgScore() throws ClassNotFoundException, SQLException {
+//		Rate DBAO = new Rate();
+//		ArrayList<Integer> listRate = DBAO.getListRate(idMovie);
+//		model.RateMovie rate = new model.RateMovie(listRate);
+//		double avgScore = rate.averageScore();
+//
+//		return (double) Math.ceil(avgScore * 10) / 10;
+//	}
+//
+//	public int voteTotal() throws ClassNotFoundException, SQLException {
+//		Rate DBAO = new Rate();
+//		ArrayList<Integer> listRate = DBAO.getListRate(idMovie);
+//		return listRate.size();
+//	}
+
+	public int getPerCent(double total) throws ClassNotFoundException, SQLException {
+
+		return (int) ((views / total) * 100);
+
+	}
 
 }

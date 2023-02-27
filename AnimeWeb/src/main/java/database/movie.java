@@ -13,10 +13,10 @@ import java.util.StringTokenizer;
 import javax.servlet.http.Part;
 
 import model.Account;
-import model.Comment;
+import model.CommentMovie;
 import model.ListMovie;
 import model.Movie;
-import model.chapter;
+import model.ChapterMovie;
 
 public class movie {
 	public movie() {
@@ -35,19 +35,19 @@ public class movie {
 		return null;
 	}
 
-	public ArrayList<Comment> getComment(int idMovie) throws ClassNotFoundException, SQLException {
-		ArrayList<Comment> result = new ArrayList<>();
+	public ArrayList<CommentMovie> getComment(int idMovie) throws ClassNotFoundException, SQLException {
+		ArrayList<CommentMovie> result = new ArrayList<>();
 		Connection conn = null;
 		conn = DataSource.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("select * from comment where idMovie=? order by timecomment desc");
 		ps.setInt(1, idMovie);
 		ResultSet rs = ps.executeQuery();
-		Comment cm;
+		CommentMovie cm;
 		while (rs.next()) {
 			String userName = rs.getString(1);
 			Account ac = findUser(userName);
-			cm = new Comment(userName, rs.getString(2), rs.getInt(3), rs.getString(4));
+			cm = new CommentMovie(userName, rs.getString(2), rs.getInt(3), rs.getString(4));
 			cm.setAccount(ac);
 			result.add(cm);
 		}
@@ -55,17 +55,17 @@ public class movie {
 		return result;
 	}
 
-	public ArrayList<chapter> getChapters(int idMovie) throws ClassNotFoundException, SQLException {
-		ArrayList<chapter> result = new ArrayList<>();
+	public ArrayList<ChapterMovie> getChapters(int idMovie) throws ClassNotFoundException, SQLException {
+		ArrayList<ChapterMovie> result = new ArrayList<>();
 		Connection conn = null;
 		conn = DataSource.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("select * from chapter where idMovie=?");
 		ps.setInt(1, idMovie);
 		ResultSet rs = ps.executeQuery();
-		chapter ct;
+		ChapterMovie ct;
 		while (rs.next()) {
-			ct = new chapter(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+			ct = new ChapterMovie(rs.getInt(1), rs.getInt(2), rs.getInt(3));
 			result.add(ct);
 		}
 		;
@@ -109,8 +109,8 @@ public class movie {
 		int idMovie;
 		while (rs.next()) {
 			idMovie = rs.getInt(1);
-			ArrayList<Comment> comments = getComment(idMovie);
-			ArrayList<chapter> chapters = getChapters(idMovie);
+			ArrayList<CommentMovie> comments = getComment(idMovie);
+			ArrayList<ChapterMovie> chapters = getChapters(idMovie);
 			movie = new Movie(idMovie, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6),
 					rs.getString(7), comments, chapters, rs.getString(8));
 			result.add(movie);
