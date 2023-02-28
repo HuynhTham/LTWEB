@@ -11,9 +11,7 @@
 <meta name="keywords" content="Anime, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Anime</title>
-
-<!-- Google Font -->
+<title>Anime</title><!-- Google Font -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"
 	rel="stylesheet">
@@ -38,8 +36,6 @@
 <body>
 
 	<fmt:setLocale value="${sessionScope.LANG}" />
-	<c:url var="urlAvatar"
-		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
 	<c:url var="profileServlet" value="/anime-main/profile.jsp" />
 	<!-- Page Preloder -->
 	<div id="preloder">

@@ -26,11 +26,11 @@ public class Index extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 			try {
-			
+				
 				request.getRequestDispatcher("/anime-main/index.jsp").forward(request, response);
 			} catch (Exception e) {
-				response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
-				
+//				response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png"+"\">");
+				e.printStackTrace();
 				
 			}
 

@@ -1,5 +1,6 @@
 package database;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 
@@ -143,13 +144,13 @@ public class DAOAccounts {
 		Encode encrypt = new Encode();
 		String encryptPassword = encrypt.toSHA1(password);
 		Jdbi me = JDBiConnector.me();
-	
+		String avatarPath = "/anime-main/storage/avatarUser/";
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
-				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,null,1,1) ";
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,:avatar,1,1) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", encryptPassword)
-						.bind("Email", email).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
+						.bind("Email", email).bind("avatar", avatarPath+"defaultavatar.jpg").executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
 						.orElse(-1);
 
 				String query1 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";

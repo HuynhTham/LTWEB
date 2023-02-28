@@ -82,7 +82,7 @@
 						<h3>
 							<fmt:message>menu.login</fmt:message>
 						</h3>
-						<form action="login" method="get">
+						<form action="login" method="post">
 							<div class="input__item">
 								<input required="required" type="text" placeholder="User Name"
 									name="loginName" value="${usName}"> <span

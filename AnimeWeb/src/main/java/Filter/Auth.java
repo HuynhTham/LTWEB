@@ -12,41 +12,32 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebFilter("/*")
-public class Redirect extends HttpFilter implements Filter {
+public class Auth extends HttpFilter implements Filter {
        
-   
-	private static final long serialVersionUID = 1L;
-
-	public Redirect() {
+  
+    public Auth() {
         super();
-       
-    }
+        }
 
 	
 	public void destroy() {
-	
+		// TODO Auto-generated method stub
 	}
 
-	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		 HttpServletRequest httpRequest = (HttpServletRequest) request;
 		 HttpServletResponse httpRespone = (HttpServletResponse) response;
-		    String url = httpRequest.getRequestURL().toString();
-		    boolean check = url.endsWith(".jsp") && !url.endsWith("login.jsp") && !url.endsWith("signup.jsp");
-		    httpRequest.setAttribute("realPath", httpRequest.getServletContext().getRealPath("/"));
-		   if(check) {
-			  
-			   	httpRespone.sendRedirect(httpRequest.getContextPath()+"/anime-main/Index");
-			   	return;
-		   }
+		 String url = httpRequest.getRequestURL().toString();
+		 boolean check = url.endsWith(".jsp") && (url.endsWith("login.jsp") || url.endsWith("signup.jsp"));
+		    if(check && httpRequest.getSession().getAttribute("user")!=null) {
+		     	httpRespone.sendRedirect(httpRequest.getContextPath()+"/anime-main/Index");
+		    	return;
+		    }
 		chain.doFilter(request, response);
 	}
 
-
-	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+		public void init(FilterConfig fConfig) throws ServletException {
+		}
 
 }

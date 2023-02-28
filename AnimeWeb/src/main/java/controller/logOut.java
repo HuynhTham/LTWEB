@@ -17,7 +17,7 @@ public class logOut extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().invalidate();
-		response.sendRedirect(getServletContext().getContextPath() + "/anime-main/begin");
+		response.sendRedirect(getServletContext().getContextPath() + "/anime-main/Index");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
