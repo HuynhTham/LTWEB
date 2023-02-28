@@ -2592,3 +2592,27 @@ body a{
 .product__sidebar__view h5 a{
 	  filter: drop-shadow(3px 4px 6px black)!important;
 }
+.login__register a {
+	display: inline-table;
+	margin-bottom: 5% !important;
+	width: 60%;
+	text-align: center;	
+}
+
+.loginfb {
+	width: 200% !important;
+}
+
+._4z_d {
+	width: 200px !important;
+	font-size: 20px !important;
+	line-height: 16px !important;
+	padding: 2px 35px !important;
+}
+
+._4z_f {
+	width: 200px !important;
+	font-size: 20px !important;
+	line-height: 16px !important;
+	padding: 2px 35px !important
+}
