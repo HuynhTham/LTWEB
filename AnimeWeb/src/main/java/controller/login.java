@@ -53,7 +53,7 @@ public class login extends HttpServlet {
 							session.setAttribute("user", user);
 							session.setAttribute("isAdmin", user.isAdmin());
 							session.removeAttribute("countError");
-							direct="/Index";
+							direct="/anime-main/Index";
 							
 							log.setContent("Login sucess");
 						
@@ -112,7 +112,7 @@ public class login extends HttpServlet {
 				request.getRequestDispatcher(direct).forward(request, response);
 			
 		} catch (SQLException e) {
-		
+		e.printStackTrace();
 			response.getWriter().println("<img class=\"rsImg\" src=\"/AnimeWeb/error.png" + "\">");
 		}
 

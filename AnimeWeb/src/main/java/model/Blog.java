@@ -12,14 +12,14 @@ public class Blog {
 	private Date datePost;
 	private String avt;
 	private Date dayDebut;
-	private List<commentBlog> listComment;
+	private List<CommentBlog> listComment;
 	
 	
 	
 	
 	
 	public Blog(int id, String title, String folder, Date datePost, String avt, Date dayDebut,
-			List<commentBlog> listComment) {
+			List<CommentBlog> listComment) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -81,10 +81,10 @@ public class Blog {
 	public void setDayDebut(Date dayDebut) {
 		this.dayDebut = dayDebut;
 	}
-	public List<commentBlog> getListComment() {
+	public List<CommentBlog> getListComment() {
 		return listComment;
 	}
-	public void setListComment(List<commentBlog> listComment) {
+	public void setListComment(List<CommentBlog> listComment) {
 		this.listComment = listComment;
 	}
 	

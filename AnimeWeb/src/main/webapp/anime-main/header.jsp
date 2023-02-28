@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 
 <jsp:useBean id="now" class="java.util.Date" scope="request" />
-<c:url var="urlAvatar" value="${request.servletContext.realPath}/anime-main/storage/avatarUser/${user.avatar}?${now}" />
+<c:url var="urlAvatar" value="${user.avatar}?${now}" />
 <fmt:setBundle basename="anime.web.resources.app" />
 <header class="header">
 
