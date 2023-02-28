@@ -31,6 +31,8 @@
 <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/ds/style.css" />
 <script src="https://kit.fontawesome.com/9847adceef.js"></script>
+<link rel="stylesheet" href="css/ds/font-awesome.min.css"
+	type="text/css">
 <script src="https://www.google.com/recaptcha/api.js?hl=vi"></script>
 </head>
 
@@ -47,7 +49,7 @@
 
 
 	<!-- Header Section Begin -->
-	<fmt:setLocale value="vi_VN" />
+
 	<fmt:setBundle basename="anime.web.resources.app" />
 	<c:import url="/anime-main/header.jsp" />
 	<!-- Header End -->
@@ -111,29 +113,29 @@
 							<fmt:message>signup.message</fmt:message>
 						</h3>
 						<a href="/signup.jsp" class="primary-btn"><fmt:message>button.signup</fmt:message></a>
-						<a
+						<br> <a
 							href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/AnimeWeb/anime-main/login-google&response_type=code
     &client_id=653759297281-qjl19np77aug293a6tahskvbfri39e4v.apps.googleusercontent.com&approval_prompt=force"
-							class="primary-btn"><fmt:message>Login With Google</fmt:message></a>
+							class="primary-btn"><i class="fa fa-google-plus "
+							aria-hidden="true"> </i> <fmt:message>content.logingg</fmt:message></a>
 
-					</div>
-					<br>
-
-					<fb:login-button scope="public_profile,email"
-						onlogin="checkLoginState();">
-					</fb:login-button>
-					<div id="status" style="color: red"></div>
-
-				</div>
-			</div>
-			<div class="login__social">
-				<div class="row d-flex justify-content-center">
-					<div class="col-lg-6">
-						<div class="login__social__links"></div>
+						<br>
+						<div class="loginfb">
+							<fb:login-button scope="public_profile,email"
+								onlogin="checkLoginState();">
+								<a class="primary-btn"> Login With Facebook</a>
+							</fb:login-button>
+						</div>
 					</div>
 				</div>
+				<div class="login__social">
+					<div class="row d-flex justify-content-center">
+						<div class="col-lg-6">
+							<div class="login__social__links"></div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
 	</section>
 	<!-- Login Section End -->
 

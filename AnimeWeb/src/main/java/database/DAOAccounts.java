@@ -56,8 +56,6 @@ public class DAOAccounts {
 
 	}
 
-
-
 	public Account findUserByUserNameandEmail(String userName, String Email) {
 		Jdbi me = JDBiConnector.me();
 		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName= :UserName and Email= :Email and typeId=1";
@@ -150,24 +148,23 @@ public class DAOAccounts {
 			try {
 				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,:avatar,1,1) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", encryptPassword)
-						.bind("Email", email).bind("avatar", avatarPath+"defaultavatar.jpg").executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
-						.orElse(-1);
+						.bind("Email", email).bind("avatar", avatarPath + "defaultavatar.jpg")
+						.executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
 
 				String query1 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";
 				handle.createUpdate(query1).bind("idUser", idUser).bind("idrole", Role.base_User).execute();
 				handle.commit();
-			
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				handle.rollback();
-			
 
 			}
 		});
-		
+
 	}
 
-	public void addGoogle(String idGoogle, String email, String userName) throws SQLException {
+	public void addGoogle(String idGoogle, String email, String userName, String avatar) throws SQLException {
 
 		Encode encrypt = new Encode();
 		String pass = encrypt.toSHA1(idGoogle);
@@ -176,10 +173,10 @@ public class DAOAccounts {
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
-				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,null,2,1) ";
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,:avatar,2,1) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", pass)
-						.bind("Email", email).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
-						.orElse(-1);
+						.bind("Email", email).bind("avatar", avatar).executeAndReturnGeneratedKeys()
+						.mapTo(Integer.class).findFirst().orElse(-1);
 				String query2 = "INSERT INTO  accounts_google (idGoogle, Username,idUser,Email) VALUES (:idGoogle,:Username,:idUser,:Email) ";
 				handle.createUpdate(query2).bind("idGoogle", idGoogle).bind("Username", userName).bind("idUser", idUser)
 						.bind("Email", email).execute();
