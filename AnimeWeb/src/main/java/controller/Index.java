@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-@WebServlet("/anime-main/begin")
-public class begin extends HttpServlet {
+@WebServlet("/anime-main/Index")
+public class Index extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	 

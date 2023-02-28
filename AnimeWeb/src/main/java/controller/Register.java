@@ -122,7 +122,7 @@ public class Register extends HttpServlet {
 								//dang ky thanh cong
 								log.setLevel(Log.INFO);
 								log.setContent("Đăng kí thành công");
-								direct="/index.jsp";
+								direct="/Index";
 							
 								
 								

@@ -1,4 +1,4 @@
-package controller;
+package Filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -14,20 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @WebFilter("/*")
-public class LocalFIlter extends HttpFilter implements Filter {
+public class LanguageFilter extends HttpFilter implements Filter {
        
  
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		request.setCharacterEncoding("UTF-8");
 		String lang = request.getParameter("lang");
-		
-	
 		if(lang!=null) {
 				req.getSession().setAttribute("LANG", lang);
 		}

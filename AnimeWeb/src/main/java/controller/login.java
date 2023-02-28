@@ -53,7 +53,7 @@ public class login extends HttpServlet {
 							session.setAttribute("user", user);
 							session.setAttribute("isAdmin", user.isAdmin());
 							session.removeAttribute("countError");
-							direct="/index.jsp";
+							direct="/Index";
 							
 							log.setContent("Login sucess");
 						
