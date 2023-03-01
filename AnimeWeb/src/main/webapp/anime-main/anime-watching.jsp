@@ -92,7 +92,8 @@
 						</div>
 						<c:forEach var="chapter" items="${viewFilm.listchapter}">
 
-							<a href="watching?idM=${viewFilm.idMovie}&&chapter=${chapter.index}">Ep
+							<a
+								href="watching?idM=${viewFilm.idMovie}&&chapter=${chapter.index}">Ep
 								${chapter.index}</a>
 
 						</c:forEach>

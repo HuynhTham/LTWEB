@@ -33,12 +33,12 @@
 </head>
 
 <body>
-	
-	
-	
-	
 
-	
+
+
+
+
+
 
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />

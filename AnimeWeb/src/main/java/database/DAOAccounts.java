@@ -85,7 +85,7 @@ public class DAOAccounts {
 	public Account baseLogin(String userName, String passWord) throws SQLException, FileNotFoundException {
 
 		Account account = null;
-		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive FROM animeweb.accounts where UserName= :UserName and Password = :Password and typeId=1";
+		String query = "SELECT idUser,UserName,Password,Email,avatar,typeId,isActive,FullName,PhoneNumber FROM animeweb.accounts where UserName= :UserName and Password = :Password and typeId=1";
 		Jdbi me = JDBiConnector.me();
 		account = me.withHandle(handle -> {
 			return handle.createQuery(query).bind("UserName", userName).bind("Password", passWord)
@@ -138,7 +138,7 @@ public class DAOAccounts {
 		return id;
 	}
 
-	public void addBaseUser(String userName, String password, String email) {
+	public void addBaseUser(String userName, String password, String email,String fullName,String phoneNumber) {
 		Encode encrypt = new Encode();
 		String encryptPassword = encrypt.toSHA1(password);
 		Jdbi me = JDBiConnector.me();
@@ -146,9 +146,9 @@ public class DAOAccounts {
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
-				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,:avatar,1,1) ";
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive,FullName,PhoneNumber) VALUES (:Username,:Password,:Email,:avatar,1,1,:FullName,:PhoneNumber) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", encryptPassword)
-						.bind("Email", email).bind("avatar", avatarPath + "defaultavatar.jpg")
+						.bind("Email", email).bind("avatar", avatarPath + "defaultavatar.jpg").bind("FullName", fullName).bind("PhoneNumber", phoneNumber)
 						.executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
 
 				String query1 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";

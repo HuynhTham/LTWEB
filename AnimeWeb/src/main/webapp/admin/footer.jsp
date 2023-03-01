@@ -15,7 +15,7 @@
 					<a href="./index.jsp"><img src="img/logo.png" alt=""></a>
 				</div>
 			</div>
-			
+
 			<div class="col-lg-3">
 				<p>
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

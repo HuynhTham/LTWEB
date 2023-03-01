@@ -37,8 +37,8 @@
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
 
-	
-	
+
+
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
@@ -129,7 +129,7 @@
 											<span>${bigComment.getDayCmt()}</span>
 											<h5>${bigComment.getUserName()}</h5>
 											<p>${bigComment.getMess()}</p>
-										
+
 											<button
 												value="userCmt=${bigComment.getUserName()}&&idCmt=${bigComment.getIdCmt()}"
 												class="setValue">Reply</button>
@@ -150,7 +150,7 @@
 												<h5>${cmtReply.getUserNameReply()}-->
 													${cmtReply.getUserNameCmt()}</h5>
 												<p>${cmtReply.getMessage()}</p>
-												
+
 												<button
 													value="userCmt=${cmtReply.getUserNameReply()}&&idCmt=${bigComment.getIdCmt()}"
 													class="setValue">Reply</button>

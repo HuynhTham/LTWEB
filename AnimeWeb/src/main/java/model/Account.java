@@ -29,7 +29,9 @@ public class Account {
 	private int isActive;
 	private List<Role> roles;
 	private List<Movie> moviesFollow;
-
+	private Date joinDate;
+	private String fullName;
+	private String phoneNumber;
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId, int isActive,
 			ArrayList<Role> roles, ArrayList<Movie> moviesFollow) {
 		super();
@@ -59,7 +61,31 @@ public class Account {
 		this.typeId = typeId;
 		this.isActive = isActive;
 	}
-
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
+			int isActive,String fullName) {
+		super();
+		this.idUser = idUser;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.email = email;
+		this.avatar = avatar;
+		this.typeId = typeId;
+		this.isActive = isActive;
+		this.fullName = fullName;
+	}
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
+			int isActive,String fullName,String phoneNumber) {
+		super();
+		this.idUser = idUser;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.email = email;
+		this.avatar = avatar;
+		this.typeId = typeId;
+		this.isActive = isActive;
+		this.fullName = fullName;
+		this.phoneNumber = phoneNumber;
+	}
 	public int getIdUser() {
 		return idUser;
 	}
@@ -139,6 +165,30 @@ public class Account {
 
 	public void setMoviesFollow(List<Movie> moviesFollow) {
 		this.moviesFollow = moviesFollow;
+	}
+
+	public Date getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	@Override
