@@ -1,4 +1,5 @@
 package model;
+
 public class UserGoogleDto {
 
 	private String id;
@@ -14,18 +15,9 @@ public class UserGoogleDto {
 	private String family_name;
 
 	private String picture;
+	private String phone;
 
 	public UserGoogleDto() {
-	}
-
-	public UserGoogleDto(String id, String email, boolean verified_email, String name, String given_name, String family_name, String picture) {
-		this.id = id;
-		this.email = email;
-		this.verified_email = verified_email;
-		this.name = name;
-		this.given_name = given_name;
-		this.family_name = family_name;
-		this.picture = picture;
 	}
 
 	public String getId() {
@@ -84,10 +76,31 @@ public class UserGoogleDto {
 		this.picture = picture;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public UserGoogleDto(String id, String email, boolean verified_email, String name, String given_name,
+			String family_name, String picture, String phone) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.verified_email = verified_email;
+		this.name = name;
+		this.given_name = given_name;
+		this.family_name = family_name;
+		this.picture = picture;
+		this.phone = phone;
+	}
+
 	@Override
 	public String toString() {
-		return "UserGoogleDto{" + "id=" + id + ", email=" + email + ", verified_email=" + verified_email + ", name=" + name + ", given_name=" + given_name + ", family_name=" + family_name + ", picture=" + picture + '}';
+		return "UserGoogleDto{" + "id=" + id + ", email=" + email + ", verified_email=" + verified_email + ", name="
+				+ name + ", given_name=" + given_name + ", family_name=" + family_name + ", picture=" + picture + '}';
 	}
-	
 
 }
