@@ -3,7 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <jsp:useBean id="now" class="java.util.Date" scope="request" />
 <c:url var="urlAvatar" value="${user.avatar}" />
@@ -38,21 +38,26 @@
 								</div></li>
 
 							<li><a href="blog.jsp"><fmt:message>menu.ourblog</fmt:message></a></li>
-							<li><a href="https://www.facebook.com/profile.php?id=100012214729084"><fmt:message>menu.contracts</fmt:message></a></li>
+							<li><a
+								href="https://www.facebook.com/profile.php?id=100012214729084"><fmt:message>menu.contracts</fmt:message></a></li>
 							<li><a href="#"><fmt:message>content.langue</fmt:message></a>
 								<div class="dropdown">
-									<c:set var="query" value="${pageContext.request.queryString}"/>
-							
+									<c:set var="query" value="${pageContext.request.queryString}" />
+
 									<ul>
-									<c:if test="${param.lang== null}">
-										<li style="color: black;"><a href="?${query}&&lang=vi_VN"><fmt:message>content.vn</fmt:message></a></li>
-										<li style="color: black;"><a href="?${query}&&lang=en_US"><fmt:message>content.en</fmt:message></a></li>
-									</c:if>
-									<c:if test="${param.lang!= null}">
-										
-										<li style="color: black;"><a href="?${fn:substring(query, 0, query.length()-12)}&&lang=vi_VN"><fmt:message>content.vn</fmt:message></a></li>
-										<li style="color: black;"><a href="?${fn:substring(query, 0, query.length()-12)}&&lang=en_US"><fmt:message>content.en</fmt:message></a></li>
-									</c:if>
+										<c:if test="${param.lang== null}">
+											<li style="color: black;"><a
+												href="?${query}&&lang=vi_VN"><fmt:message>content.vn</fmt:message></a></li>
+											<li style="color: black;"><a
+												href="?${query}&&lang=en_US"><fmt:message>content.en</fmt:message></a></li>
+										</c:if>
+										<c:if test="${param.lang!= null}">
+
+											<li style="color: black;"><a
+												href="?${fn:substring(query, 0, query.length()-12)}&&lang=vi_VN"><fmt:message>content.vn</fmt:message></a></li>
+											<li style="color: black;"><a
+												href="?${fn:substring(query, 0, query.length()-12)}&&lang=en_US"><fmt:message>content.en</fmt:message></a></li>
+										</c:if>
 									</ul>
 								</div></li>
 						</ul>
@@ -97,7 +102,7 @@
 													<fmt:message>header.account</fmt:message>
 												</button></a></li>
 										<li><a href="follow?type=listFollow"><fmt:message>header.follow</fmt:message></a>
-											<c:url var="adm" value="../admin/featureAdmin" />
+											<c:url var="adm" value="../admin/IndexAdmin" />
 										<li><a href="${adm}"><button class="fa fa-cog"></button></a></li>
 										<li><a href="logOut"><button
 													class="fas fa-sign-out-alt"></button></a></li>

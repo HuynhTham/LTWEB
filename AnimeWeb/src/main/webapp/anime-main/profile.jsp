@@ -38,10 +38,10 @@
 	<fmt:setBundle basename="anime.web.resources.app" />
 
 
-	
+
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	
+
 
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -103,8 +103,8 @@
 	</section>
 	<section class="product spad">
 		<div class="container">
-			<form action="profile" method="post"
-				enctype='multipart/form-data' id="editProfile">
+			<form action="profile" method="post" enctype='multipart/form-data'
+				id="editProfile">
 				<div class="changeAvatar">
 					<fmt:message>content.pic</fmt:message>
 					<label id="renderAvatar" for="files"> <img alt=""

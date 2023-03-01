@@ -152,8 +152,8 @@
 									<fmt:message>button.rate</fmt:message>
 								</button>
 								<div>
-									<form action="rateMovie?id=${viewFilm.idMovie}"
-										method="post" id="formVote">
+									<form action="rateMovie?id=${viewFilm.idMovie}" method="post"
+										id="formVote">
 										<p class="fa fa-star rateStar"></p>
 										<p class="fa fa-star rateStar"></p>
 										<p class="fa fa-star rateStar"></p>

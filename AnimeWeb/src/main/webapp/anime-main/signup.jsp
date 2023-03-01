@@ -90,6 +90,16 @@
 									id="mailValue"> <span class="icon_mail"></span>
 							</div>
 							<div class="input__item">
+								<input required="required" type="text" placeholder="fullName"
+									name="fullName" value=""> <span
+									class="icon_profile"></span>
+							</div>
+							<div class="input__item">
+								<input required="required" type="tel" size="20" minlength="9"
+									maxlength="14" placeholder="phoneNumber" name="phoneNumber"
+									value=""> <span class="icon_profile"></span>
+							</div>
+							<div class="input__item">
 								<input required="required" type="text" placeholder="loginName"
 									name="userName" value="${nameOld}"> <span
 									class="icon_profile"></span>
@@ -102,8 +112,8 @@
 							<div class="g-recaptcha"
 								data-sitekey="6Lf2nYwkAAAAADknQvj1Os2Ht92MMORFX3RhbQDo"></div>
 							<div class="input__item">
-								<input required="required" type="text"
-									placeholder="Mã xác nhận" name="emailCode">
+								<input required="required" type="text" placeholder="Mã xác nhận"
+									name="emailCode">
 								<button id="SendMailButton" onclick="afterSendmail(this)"
 									disabled>Send mail</button>
 							</div>
@@ -178,11 +188,11 @@
 				url : "ValidateRegister",
 				type : "get",
 				data : {
-					email: linkMail,
+					email : linkMail,
 				},
 				success : function(data) {
 					$("#logInfoEmail").html(data);
-					
+
 				},
 				error : function(data) {
 					console.log("NDB")

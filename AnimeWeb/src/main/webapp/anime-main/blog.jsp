@@ -38,10 +38,10 @@
 	<fmt:setBundle basename="anime.web.resources.app" />
 	<c:url var="urlAvatar"
 		value="${request.rervletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}" />
-	
-	
 
-	
+
+
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -58,8 +58,12 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="normal__breadcrumb__text">
-						<h2><fmt:message>menu.ourblog</fmt:message></h2>
-						<p><fmt:message>content.welcome</fmt:message></p>
+						<h2>
+							<fmt:message>menu.ourblog</fmt:message>
+						</h2>
+						<p>
+							<fmt:message>content.welcome</fmt:message>
+						</p>
 					</div>
 				</div>
 			</div>

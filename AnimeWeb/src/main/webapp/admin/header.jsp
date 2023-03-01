@@ -4,58 +4,48 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-<c:url var="loginServlet" value="/anime-main/login" />
-<jsp:useBean id="now" class="java.util.Date" scope="request" />
-		
-<c:url var="urlAvatar"
-	value="${request.servletContext.realPath}/anime-main/storage/avatarUser/${sessionScope.user.avatar}?${now}" />
-<header class="header">
-	
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-2">
-				<div class="header__logo">
-					<a href="./anime-main/index.jsp"> <img src="../anime-main/img/logo.png"
-						alt="">
-					</a>
-				</div>
-			</div>
-			<div class="col-lg-8">
-				<div class="header__nav">
-					<nav class="header__menu mobile-menu">
-						<ul>
-							<c:url var="movieManager" value="/admin/movieManagerment.jsp" />
-							<c:url var="userManager" value="/admin/userManagerment.jsp" />
-							<c:url var="blogManager" value="/admin/blogManagerment.jsp" />
-							<li class="managerButton"><a href="${movieManager}">Quản
-									lý phim</a></li>
-							<li class="managerButton"><a href="${userManager}">Quản
-									lý người dùng</a></li>
-							<li class="managerButton"><a href="${blogManager}">Quản
-									lý Blog</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="header__right">
-
-					<div>
-						<img alt="" src="${urlAvatar}" id="avtUser">
-						<ul class="profile">
-
-							<li><a href="${profileServlet}"><button class="">Quản
-										lý tài khoản</button></a></li>
-							<li><a href="${loginServlet}"><button
-										class="fas fa-sign-out-alt"></button></a></li>
-
-						</ul>
-					</div>
-					<input type="text" id="idSession" value="${pageContext.session.id}"
-						style="display: none;">
-				</div>
-			</div>
-		</div>
-		<div id="mobile-menu-wrap"></div>
-	</div>
-</header>
+<div class="iq-top-navbar">
+            <div class="iq-navbar-custom">
+               <nav class="navbar navbar-expand-lg navbar-light p-0">
+                  <div class="iq-menu-bt d-flex align-items-center">
+                     <div class="wrapper-menu">
+                        <div class="main-circle"><i class="ri-menu-line"></i></div>
+                        <div class="hover-circle"><i class="ri-close-fill"></i></div>
+                     </div>
+                     <div class="iq-navbar-logo d-flex justify-content-between ml-3">
+                        <a href="index.html" class="header-logo">
+                        <img src="images/logo.png" class="img-fluid rounded" alt="">
+                        <span>FinDash</span>
+                        </a>
+                     </div>
+                  </div>
+                
+                  
+                  <ul class="navbar-list">
+                     <li class="line-height">
+                        <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
+                           <img src="images/user/1.jpg" class="img-fluid rounded mr-3" alt="user">
+                           <div class="caption">
+                              <h6 class="mb-0 line-height">Barry Tech</h6>
+                              <p class="mb-0">Manager</p>
+                           </div>
+                        </a>
+                        <div class="iq-sub-dropdown iq-user-dropdown">
+                           <div class="iq-card shadow-none m-0">
+                              <div class="iq-card-body p-0 ">
+                                 <div class="bg-primary p-3">
+                                    <h5 class="mb-0 text-white line-height">Hello Barry Tech</h5>
+                                    <span class="text-white font-size-12">Available</span>
+                                 </div>
+                               
+                                 <div class="d-inline-block w-100 text-center p-3">
+                                    <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </nav>
+            </div>
+         </div>

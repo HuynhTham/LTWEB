@@ -33,6 +33,8 @@ public class Register extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		String userName = request.getParameter("userName");
+		String fullName = request.getParameter("fullName");
+		String phoneNumber = request.getParameter("phoneNumber");
 		String password = request.getParameter("password");
 		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 		boolean verify = model.VerifyRecaptcha.verify(gRecaptchaResponse);
@@ -118,7 +120,7 @@ public class Register extends HttpServlet {
 									
 								}
 							} else {
-								daoAccounts.addBaseUser(userName, password, email);
+								daoAccounts.addBaseUser(userName, password, email,fullName,phoneNumber);
 								//dang ky thanh cong
 								log.setLevel(Log.INFO);
 								log.setContent("Đăng kí thành công");
@@ -138,7 +140,7 @@ public class Register extends HttpServlet {
 			}
 			request.setAttribute("errorSignup", errorMess);
 			jdbiConnector.insert(log);
-			request.getRequestDispatcher(direct).forward(request, response);
+			request.getRequestDispatcher("/anime-main"+direct).forward(request, response);
 			
 			
 		} catch (Exception e) {

@@ -21,7 +21,8 @@
 						<li class="active"><a href="${index}"><fmt:message>menu.hompage</fmt:message></a></li>
 						<li><a href="./categories.jsp"><fmt:message>menu.categories</fmt:message></a></li>
 						<li><a href="./blog.jsp"><fmt:message>menu.ourblog</fmt:message></a></li>
-						<li><a href="https://www.facebook.com/profile.php?id=100012214729084"><fmt:message>menu.contracts</fmt:message></a></li>
+						<li><a
+							href="https://www.facebook.com/profile.php?id=100012214729084"><fmt:message>menu.contracts</fmt:message></a></li>
 					</ul>
 				</div>
 			</div>
