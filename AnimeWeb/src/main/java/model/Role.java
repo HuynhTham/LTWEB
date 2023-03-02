@@ -8,11 +8,11 @@ public class Role {
 	private String description;
 	public static int base_User = 1;
 	public static int admin = 4;
-	static Map<Integer, String> levelMapping = new HashMap<>();
+	static Map<Integer, String> roleMapping = new HashMap<>();
 	static {
 		
-		levelMapping.put(1, "base_User");
-		levelMapping.put(4, "admin");
+		roleMapping.put(1, "base_User");
+		roleMapping.put(4, "admin");
 	}
 
 	public Role(int idRole, String description) {

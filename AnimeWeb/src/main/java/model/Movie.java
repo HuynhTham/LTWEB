@@ -1,11 +1,11 @@
 package model;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
-import database.Rate;
+
 
 public class Movie {
 	private int idMovie;
@@ -23,7 +23,9 @@ public class Movie {
 	private List<RateMovie> listRate;
 	private Date dayadd;
 	private List<Producer> listProducer;
-
+	private int typeID;
+	
+	
 	public Movie(int idMovie, String nameMovie, int currentEpisode) {
 		super();
 		this.idMovie = idMovie;
@@ -78,6 +80,14 @@ public class Movie {
 
 	public Movie() {
 
+	}
+
+	public int getTypeID() {
+		return typeID;
+	}
+
+	public void setTypeID(int typeID) {
+		this.typeID = typeID;
 	}
 
 	public int getIdMovie() {

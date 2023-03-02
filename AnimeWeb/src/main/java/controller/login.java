@@ -109,7 +109,7 @@ public class login extends HttpServlet {
 					
 				}
 					new JDBiConnector().insert(log);
-				request.getRequestDispatcher(direct).forward(request, response);
+				response.sendRedirect(getServletContext().getContextPath() +direct);
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
