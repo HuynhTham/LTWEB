@@ -76,6 +76,7 @@ public class LoginGoogleHandler extends HttpServlet {
 		String userName = userGoogle.getName();
 		String img = userGoogle.getPicture();
 		Account user = null;
+		String phone = userGoogle.getPhone();
 		String ipClient = request.getRemoteAddr();
 		DAOAccounts daoAccounts = new DAOAccounts();
 		Log log = new Log(Log.INFO, -1, ipClient, "Login Google", null, 0);
@@ -88,7 +89,7 @@ public class LoginGoogleHandler extends HttpServlet {
 			System.out.println(idUserGoogle);
 
 			if (idUserGoogle == 0) {
-				daoAccounts.addGoogle(idg, email, userName, img);
+				daoAccounts.addGoogle(idg, email, userName, img, userName, phone);
 				int idUser = daoAccounts.findIdUserAccount(email, 2);
 				user = daoAccounts.loginAccountByGoogle(idUser, 2);
 				log.setUserId(user.getIdUser());
