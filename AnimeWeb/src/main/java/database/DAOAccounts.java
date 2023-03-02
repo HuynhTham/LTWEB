@@ -138,7 +138,7 @@ public class DAOAccounts {
 		return id;
 	}
 
-	public void addBaseUser(String userName, String password, String email,String fullName,String phoneNumber) {
+	public void addBaseUser(String userName, String password, String email, String fullName, String phoneNumber) {
 		Encode encrypt = new Encode();
 		String encryptPassword = encrypt.toSHA1(password);
 		Jdbi me = JDBiConnector.me();
@@ -148,8 +148,9 @@ public class DAOAccounts {
 			try {
 				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive,FullName,PhoneNumber) VALUES (:Username,:Password,:Email,:avatar,1,1,:FullName,:PhoneNumber) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", encryptPassword)
-						.bind("Email", email).bind("avatar", avatarPath + "defaultavatar.jpg").bind("FullName", fullName).bind("PhoneNumber", phoneNumber)
-						.executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst().orElse(-1);
+						.bind("Email", email).bind("avatar", avatarPath + "defaultavatar.jpg")
+						.bind("FullName", fullName).bind("PhoneNumber", phoneNumber).executeAndReturnGeneratedKeys()
+						.mapTo(Integer.class).findFirst().orElse(-1);
 
 				String query1 = "INSERT INTO  account_roles (idUser, idrole) VALUES (:idUser,:idrole) ";
 				handle.createUpdate(query1).bind("idUser", idUser).bind("idrole", Role.base_User).execute();
@@ -164,7 +165,8 @@ public class DAOAccounts {
 
 	}
 
-	public void addGoogle(String idGoogle, String email, String userName, String avatar) throws SQLException {
+	public void addGoogle(String idGoogle, String email, String userName, String avatar, String fullName, String phone)
+			throws SQLException {
 
 		Encode encrypt = new Encode();
 		String pass = encrypt.toSHA1(idGoogle);
@@ -173,10 +175,11 @@ public class DAOAccounts {
 		me.useHandle(handle -> {
 			handle.begin();
 			try {
-				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive) VALUES (:Username,:Password,:Email,:avatar,2,1) ";
+				String query = "INSERT INTO accounts (Username, Password,Email,avatar,typeId,isActive,FullName,PhoneNumber) VALUES (:Username,:Password,:Email,:avatar,2,1,:FullName,:PhoneNumber) ";
 				int idUser = handle.createUpdate(query).bind("Username", userName).bind("Password", pass)
-						.bind("Email", email).bind("avatar", avatar).executeAndReturnGeneratedKeys()
-						.mapTo(Integer.class).findFirst().orElse(-1);
+						.bind("Email", email).bind("avatar", avatar).bind("FullName", fullName)
+						.bind("PhoneNumber", phone).executeAndReturnGeneratedKeys().mapTo(Integer.class).findFirst()
+						.orElse(-1);
 				String query2 = "INSERT INTO  accounts_google (idGoogle, Username,idUser,Email) VALUES (:idGoogle,:Username,:idUser,:Email) ";
 				handle.createUpdate(query2).bind("idGoogle", idGoogle).bind("Username", userName).bind("idUser", idUser)
 						.bind("Email", email).execute();
