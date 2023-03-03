@@ -26,7 +26,7 @@ public class JDBiConnector {
 	public boolean insert(Log log) {
 		return me().withHandle(handle -> {
 			return handle.execute(
-					"INSERT INTO `animeweb`.`log` (`level`, `user`, `ip`, `src`, `content`, `status`) VALUES (?,?,?,?,?,?)",
+					"INSERT INTO `animeweb`.`logs` (`level`, `user`, `ip`, `src`, `content`, `status`) VALUES (?,?,?,?,?,?)",
 					log.getLevel(), log.getUserId(), log.getIp(), log.getSrc(), log.getContent(), log.getStatus());
 		}) == 1;
 	}

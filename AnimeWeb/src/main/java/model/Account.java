@@ -1,23 +1,17 @@
 package model;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import org.jdbi.v3.core.Jdbi;
 
+import database.JDBiConnector;
 import database.Rate;
-import database.movie;
 
 public class Account {
 	private int idUser;
@@ -29,9 +23,30 @@ public class Account {
 	private int isActive;
 	private List<Role> roles;
 	private List<Movie> moviesFollow;
-	private Date joinDate;
+	private List<Movie> moviesPurchased;
+	private LocalDateTime joinDate;
 	private String fullName;
 	private String phoneNumber;
+	static Map<Integer, String> isActiveMapping = new HashMap<>();
+	static {
+		isActiveMapping.put(0, "Bị khóa");
+		isActiveMapping.put(1, "Đang hoạt động");
+		
+
+	}
+	public static int LOCK = 0;
+	public static int ACTIVED = 1;
+	public Account(int idUser, String avatar, String fullName, String phoneNumber, String email, int isActive,
+			LocalDateTime joinDate) {
+		this.idUser = idUser;
+		this.avatar = avatar;
+		this.fullName = fullName;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.isActive = idUser;
+		this.joinDate = joinDate;
+	}
+
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId, int isActive,
 			ArrayList<Role> roles, ArrayList<Movie> moviesFollow) {
 		super();
@@ -49,6 +64,7 @@ public class Account {
 	public Account() {
 
 	}
+	
 
 	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
 			int isActive) {
@@ -61,8 +77,9 @@ public class Account {
 		this.typeId = typeId;
 		this.isActive = isActive;
 	}
-	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
-			int isActive,String fullName) {
+
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId, int isActive,
+			String fullName) {
 		super();
 		this.idUser = idUser;
 		this.userName = userName;
@@ -73,8 +90,9 @@ public class Account {
 		this.isActive = isActive;
 		this.fullName = fullName;
 	}
-	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId,
-			int isActive,String fullName,String phoneNumber) {
+
+	public Account(int idUser, String userName, String passWord, String email, String avatar, int typeId, int isActive,
+			String fullName, String phoneNumber) {
 		super();
 		this.idUser = idUser;
 		this.userName = userName;
@@ -86,6 +104,26 @@ public class Account {
 		this.fullName = fullName;
 		this.phoneNumber = phoneNumber;
 	}
+	public String getFullJoinDate() {
+		return joinDate.getDayOfMonth()+"/"+joinDate.getMonthValue()+"/"+joinDate.getYear(); 
+	}
+	public String getTypeAccount() {
+		return TypeUser.TypeMapping.get(typeId);
+	}
+	
+
+	public List<Movie> getMoviesPurchased() {
+		return moviesPurchased;
+	}
+
+	public void setMoviesPurchased(List<Movie> moviesPurchased) {
+		this.moviesPurchased = moviesPurchased;
+	}
+
+	public Account(LocalDateTime date) {
+		this.joinDate = date;
+	}
+
 	public int getIdUser() {
 		return idUser;
 	}
@@ -137,6 +175,9 @@ public class Account {
 	public int getIsActive() {
 		return isActive;
 	}
+	public String getIsActiveDescription() {
+		return isActiveMapping.get(isActive);
+	}
 
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
@@ -167,11 +208,11 @@ public class Account {
 		this.moviesFollow = moviesFollow;
 	}
 
-	public Date getJoinDate() {
+	public LocalDateTime getJoinDate() {
 		return joinDate;
 	}
 
-	public void setJoinDate(Date joinDate) {
+	public void setJoinDate(LocalDateTime joinDate) {
 		this.joinDate = joinDate;
 	}
 
@@ -194,7 +235,9 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [idUser=" + idUser + ", userName=" + userName + ", passWord=" + passWord + ", email=" + email
-				+ ", avatar=" + avatar + ", typeId=" + typeId + ", isActive=" + isActive + ", roles=" + roles + "]";
+				+ ", avatar=" + avatar + ", typeId=" + typeId + ", isActive=" + isActive + ", roles=" + roles
+				+ ", moviesFollow=" + moviesFollow + ", joinDate=" + joinDate + ", fullName=" + fullName
+				+ ", phoneNumber=" + phoneNumber + "]";
 	}
 
 	public int getmyRate(int idMovie) throws ClassNotFoundException, SQLException {
@@ -203,60 +246,13 @@ public class Account {
 		return rs;
 	}
 
-	public static void main(String[] args) throws MessagingException, UnsupportedEncodingException {
-//	        final String fromEmail = "20130305@st.hcmuaf.edu.vn";
-//	        // Mat khai email cua ban
-//	        final String password = "Linh@27092002";
-//	        // dia chi email nguoi nhan
-//	        final String toEmail = "goblinslayer27092002@gmail.com";
-//	        final String subject = "Java Example Test";
-//	        final String body = "Hello Admin";
-//	        Properties props = new Properties();
-//	        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-//	        props.put("mail.smtp.port", "587"); //TLS Port
-//	        props.put("mail.smtp.auth", "true"); //enable authentication
-//	        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-//	        Authenticator auth = new Authenticator() {
-//	            protected PasswordAuthentication getPasswordAuthentication() {
-//	                return new PasswordAuthentication(fromEmail, password);
-//	            }
-//	        };
-//	        Session session = Session.getInstance(props, auth);
-//	        MimeMessage msg = new MimeMessage(session);
-//	        //set message headers
-//	        msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-//	        msg.addHeader("format", "flowed");
-//	        msg.addHeader("Content-Transfer-Encoding", "8bit");
-//	        msg.setFrom(new InternetAddress(fromEmail, "NoReply-JD"));
-//	        msg.setReplyTo(InternetAddress.parse(fromEmail, false));
-//	        msg.setSubject(subject, "UTF-8");
-//	        msg.setText(body, "UTF-8");
-//	        msg.setSentDate(new Date());
-//	        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-//	        Transport.send(msg);
-//	        System.out.println("Gui mail thanh cong");
-//	    }
-//			Properties props = new Properties();
-//			props.put("mail.smtp.auth", "true");
-//			props.put("mail.smtp.starttls.enable", "true");
-//			props.put("mail.smtp.host", "smtp.gmail.com");
-//			props.put("mail.smtp.port", "587");
-//
-//			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-//			    protected PasswordAuthentication getPasswordAuthentication() {
-//			        return new PasswordAuthentication("20130305@st.hcmuaf.edu.vn", "Linh@27092002");
-//			    }
-//			});
-//			Message message = new MimeMessage(session);
-//			try {
-//				message.setFrom(new InternetAddress("20130305@st.hcmuaf.edu.vn","Web phim"));
-//				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("goblinslayer27092002@gmail.com"));
-//				message.setSubject("Kích hoạt tài khoản");
-//				message.setText("This is a test email from my Java web application");
-//				Transport.send(message);
-//			} catch (MessagingException e) {
-//			e.printStackTrace();
-//			}
-	
+	public static void main(String[] args) {
+		Jdbi me = JDBiConnector.me();
+		List<Account> products = me.withHandle(handle -> {
+			return handle.createQuery("select * from accounts LIMIT 1 OFFSET 0").mapToBean(Account.class).stream()
+					.collect(Collectors.toList());
+		});
+		System.out.println(products);
+
 	}
 }

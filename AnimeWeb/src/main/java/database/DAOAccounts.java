@@ -1,30 +1,23 @@
 package database;
 
-import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
 
-import org.jdbi.v3.core.Handle;
+import java.util.stream.Collectors;
+
+
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.result.ResultBearing;
 
-import com.mysql.cj.protocol.Resultset;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import controller.login;
+
+
 import model.Account;
 import model.Encode;
 import model.Role;
@@ -33,7 +26,29 @@ public class DAOAccounts {
 	public DAOAccounts() {
 
 	}
+	
+	public int getSizeListAccountNormal(){
+		Jdbi me = JDBiConnector.me();
+		String query = "select distinct ac.idUser from animeweb.accounts ac join animeweb.account_roles acr on ac.idUser = acr.idUser where 4 not in"
+				+ " (select idrole from animeweb.account_roles where idUser = ac.idUser)";
+		List<Account> result = me.withHandle(handle -> {
+			return handle.createQuery(query).mapToBean(Account.class).stream()
+					.collect(Collectors.toList());
+		});
+		return result.size();
+	}
+	public List<Account> getListAccountNormal(int offset,int limit){
+		Jdbi me = JDBiConnector.me();
+		String query = "select distinct ac.idUser,UserName,Password,Email,avatar,typeId,isActive,joinDate,FullName,PhoneNumber from animeweb.accounts ac join animeweb.account_roles acr on ac.idUser = acr.idUser where 4 not in"
+				+ " (select idrole from animeweb.account_roles where idUser = ac.idUser) LIMIT :limit OFFSET :offset";
+		List<Account> result = me.withHandle(handle -> {
+			return handle.createQuery(query).bind("limit", limit).bind("offset", offset).mapToBean(Account.class).stream()
+					.collect(Collectors.toList());
+		});
 
+		return result;
+	}
+	
 	public boolean blockAccount(int idUser) throws SQLException {
 		Connection conn = DataSource.getConnection();
 		PreparedStatement prepare = conn.prepareStatement("UPDATE animeweb.accounts SET isActive = 0 WHERE idUser=? ");
@@ -280,7 +295,9 @@ public class DAOAccounts {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, FileNotFoundException {
 //		System.out.println(new DAOAccounts().checkAcountFacebook("20130115@gmail.com", "12345678"));
-		new DAOAccounts().insertAcountFB("ádsada", "1231111", "he123he@gmail.com");
+//		new DAOAccounts().insertAcountFB("ádsada", "1231111", "he123he@gmail.com");
+		//System.out.println(getListAccountNormal(0, 100).size());
+		//System.out.println(getSizeListAccountNormal());
 
 	}
 }

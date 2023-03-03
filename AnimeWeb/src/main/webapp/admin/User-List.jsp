@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="css/style.css">
 <!-- Responsive CSS -->
 <link rel="stylesheet" href="css/responsive.css">
+<c:url var="UserList" value="UserList"/>
 </head>
 <body>
 	<!-- loader Start -->
@@ -73,252 +74,50 @@
 										aria-describedby="user-list-page-info">
 										<thead>
 											<tr>
-												<th>Profile</th>
-												<th>Name</th>
+												<th>Avatar</th>
+												<th>Full Name</th>
 												<th>Contact</th>
 												<th>Email</th>
-												<th>Country</th>
+												<th>Account Type</th>
 												<th>Status</th>
-												<th>Company</th>
 												<th>Join Date</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/01.jpg" alt="profile"></td>
-												<td>Anna Sthesia</td>
-												<td>(760) 756 7568</td>
-												<td>annasthesia@gmail.com</td>
-												<td>USA</td>
-												<td><span class="badge iq-bg-primary">Active</span></td>
-												<td>Acme Corporation</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/02.jpg" alt="profile"></td>
-												<td>Brock Lee</td>
-												<td>+62 5689 458 658</td>
-												<td>brocklee@gmail.com</td>
-												<td>Indonesia</td>
-												<td><span class="badge iq-bg-primary">Active</span></td>
-												<td>Soylent Corp</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/03.jpg" alt="profile"></td>
-												<td>Dan Druff</td>
-												<td>+55 6523 456 856</td>
-												<td>dandruff@gmail.com</td>
-												<td>Brazil</td>
-												<td><span class="badge iq-bg-warning">Pending</span></td>
-												<td>Umbrella Corporation</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/04.jpg" alt="profile"></td>
-												<td>Hans Olo</td>
-												<td>+91 2586 253 125</td>
-												<td>hansolo@gmail.com</td>
-												<td>India</td>
-												<td><span class="badge iq-bg-danger">Inactive</span></td>
-												<td>Vehement Capital</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/05.jpg" alt="profile"></td>
-												<td>Lynn Guini</td>
-												<td>+27 2563 456 589</td>
-												<td>lynnguini@gmail.com</td>
-												<td>Africa</td>
-												<td><span class="badge iq-bg-primary">Active</span></td>
-												<td>Massive Dynamic</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/06.jpg" alt="profile"></td>
-												<td>Eric Shun</td>
-												<td>+55 25685 256 589</td>
-												<td>ericshun@gmail.com</td>
-												<td>Brazil</td>
-												<td><span class="badge iq-bg-warning">Pending</span></td>
-												<td>Globex Corporation</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/07.jpg" alt="profile"></td>
-												<td>aaronottix</td>
-												<td>(760) 765 2658</td>
-												<td>budwiser@ymail.com</td>
-												<td>USA</td>
-												<td><span class="badge iq-bg-info">Hold</span></td>
-												<td>Acme Corporation</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/08.jpg" alt="profile"></td>
-												<td>Marge Arita</td>
-												<td>+27 5625 456 589</td>
-												<td>margearita@gmail.com</td>
-												<td>Africa</td>
-												<td><span class="badge iq-bg-success">Complite</span></td>
-												<td>Vehement Capital</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td class="text-center"><img
-													class="rounded img-fluid avatar-40"
-													src="images/user/09.jpg" alt="profile"></td>
-												<td>Bill Dabear</td>
-												<td>+55 2563 456 589</td>
-												<td>billdabear@gmail.com</td>
-												<td>Brazil</td>
-												<td><span class="badge iq-bg-primary">active</span></td>
-												<td>Massive Dynamic</td>
-												<td>2019/12/01</td>
-												<td>
-													<div class="flex align-items-center list-user-action">
-														<a class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Add"
-															href="#"><i class="ri-user-add-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title="" data-original-title="Edit"
-															href="#"><i class="ri-pencil-line"></i></a> <a
-															class="iq-bg-primary" data-toggle="tooltip"
-															data-placement="top" title=""
-															data-original-title="Delete" href="#"><i
-															class="ri-delete-bin-line"></i></a>
-													</div>
-												</td>
-											</tr>
+											<c:forEach var="item" items="${listAccount}">
+												<tr>
+												<c:url var="itemAvatar" value="${item.avatar}" />
+													<td class="text-center"><img
+														class="rounded img-fluid avatar-40"
+														src="${itemAvatar}" alt="profile"></td>
+													<td>${item.fullName}</td>
+													<td>${item.phoneNumber}</td>
+													<td>${item.email}</td>
+													<td>${item.getTypeAccount()}</td>
+													<td>
+													<c:if test="${item.isActive==1}"><span class="badge iq-bg-success"></c:if>
+													<c:if test="${item.isActive==0}"><span class="badge iq-bg-danger"></c:if>
+													${item.getIsActiveDescription()}</span></td>
+											
+													<td>${item.getFullJoinDate()}</td>
+													<td>
+														<div class="flex align-items-center list-user-action">
+															<a class="iq-bg-primary" data-toggle="tooltip"
+																data-placement="top" title="" data-original-title="Add"
+																href="#"><i class="ri-user-add-line"></i></a> <a
+																class="iq-bg-primary" data-toggle="tooltip"
+																data-placement="top" title="" data-original-title="Edit"
+																href="#"><i class="ri-pencil-line"></i></a> <a
+																class="iq-bg-primary" data-toggle="tooltip"
+																data-placement="top" title=""
+																data-original-title="Delete" href="#"><i
+																class="ri-delete-bin-line"></i></a>
+														</div>
+													</td>
+												</tr>
+
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -330,12 +129,15 @@
 										<nav aria-label="Page navigation example">
 											<ul class="pagination justify-content-end mb-0">
 												<li class="page-item disabled"><a class="page-link"
-													href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
-												<li class="page-item active"><a class="page-link"
-													href="#">1</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item"><a class="page-link" href="#">Next</a>
+													href="${UserList}?offset=${offset-1}" tabindex="-1" aria-disabled="true">Previous</a></li>
+												<c:forEach var="i" begin="1" end="${limitList}">
+												<c:if test="${i==offset}"><li class="page-item active"></c:if>
+												<c:if test="${i!=offset}"><li class="page-item"></c:if>
+												<a class="page-link"
+													href="${UserList}?offset=${i}">${i}</a></li>
+												</c:forEach>
+											
+												<li class="page-item"><a class="page-link" href="${UserList}?offset=${offset+1}">Next</a>
 												</li>
 											</ul>
 										</nav>
